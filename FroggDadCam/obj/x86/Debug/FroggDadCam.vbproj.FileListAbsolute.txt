@@ -1,0 +1,44 @@
+C:\Users\remy\AppData\Local\Temporary Projects\WindowsApplication1\obj\x86\Debug\FroggDadCam.vbproj.GenerateResource.Cache
+C:\Users\remy\AppData\Local\Temporary Projects\WindowsApplication1\bin\Debug\DadCam.exe
+C:\Users\remy\AppData\Local\Temporary Projects\WindowsApplication1\bin\Debug\DadCam.pdb
+C:\Users\remy\AppData\Local\Temporary Projects\WindowsApplication1\bin\Debug\DadCam.xml
+C:\Users\remy\AppData\Local\Temporary Projects\WindowsApplication1\obj\x86\Debug\DadCam.DadCam.resources
+C:\Users\remy\AppData\Local\Temporary Projects\WindowsApplication1\obj\x86\Debug\DadCam.Frogg.resources
+C:\Users\remy\AppData\Local\Temporary Projects\WindowsApplication1\obj\x86\Debug\DadCam.Resources.resources
+C:\Users\remy\AppData\Local\Temporary Projects\WindowsApplication1\obj\x86\Debug\DadCam.exe
+C:\Users\remy\AppData\Local\Temporary Projects\WindowsApplication1\obj\x86\Debug\DadCam.xml
+C:\Users\remy\AppData\Local\Temporary Projects\WindowsApplication1\obj\x86\Debug\DadCam.pdb
+C:\Users\remy\Documents\GitHub\FroggDadCam\FroggDadCam\bin\Debug\FroggDadCam.exe
+C:\Users\remy\Documents\GitHub\FroggDadCam\FroggDadCam\bin\Debug\FroggDadCam.pdb
+C:\Users\remy\Documents\GitHub\FroggDadCam\FroggDadCam\bin\Debug\FroggDadCam.xml
+C:\Users\remy\Documents\GitHub\FroggDadCam\FroggDadCam\obj\x86\Debug\DadCam.DadCam.resources
+C:\Users\remy\Documents\GitHub\FroggDadCam\FroggDadCam\obj\x86\Debug\DadCam.Frogg.resources
+C:\Users\remy\Documents\GitHub\FroggDadCam\FroggDadCam\obj\x86\Debug\DadCam.Resources.resources
+C:\Users\remy\Documents\GitHub\FroggDadCam\FroggDadCam\obj\x86\Debug\FroggDadCam.vbproj.GenerateResource.Cache
+C:\Users\remy\Documents\GitHub\FroggDadCam\FroggDadCam\obj\x86\Debug\FroggDadCam.exe
+C:\Users\remy\Documents\GitHub\FroggDadCam\FroggDadCam\obj\x86\Debug\FroggDadCam.xml
+C:\Users\remy\Documents\GitHub\FroggDadCam\FroggDadCam\obj\x86\Debug\FroggDadCam.pdb
+C:\Users\remy\Documents\GitHub\FroggDadCam\FroggDadCam\bin\Debug\Interop.WMPLib.dll
+C:\Users\remy\Documents\GitHub\FroggDadCam\FroggDadCam\bin\Debug\AxInterop.WMPLib.dll
+C:\Users\remy\Documents\GitHub\FroggDadCam\FroggDadCam\obj\x86\Debug\Interop.WMPLib.dll
+C:\Users\remy\Documents\GitHub\FroggDadCam\FroggDadCam\obj\x86\Debug\AxInterop.WMPLib.dll
+C:\Users\remy\Documents\GitHub\FroggDadCam\FroggDadCam\obj\x86\Debug\FroggDadCam.vbproj.ResolveComReference.cache
+C:\Users\remy\Documents\GitHub\FroggDadCam\FroggDadCam\obj\x86\Debug\DadCam.VideoPlayer.resources
+C:\Users\remy\Documents\GitHub\FroggDadCam\FroggDadCam\obj\x86\Debug\DadCam.Configuration.resources
+C:\Users\remy\Documents\GitHub\VB2010_froggDadCam\FroggDadCam\obj\x86\Debug\Interop.WMPLib.dll
+C:\Users\remy\Documents\GitHub\VB2010_froggDadCam\FroggDadCam\obj\x86\Debug\AxInterop.WMPLib.dll
+C:\Users\remy\Documents\GitHub\VB2010_froggDadCam\FroggDadCam\obj\x86\Debug\FroggDadCam.vbproj.ResolveComReference.cache
+C:\Users\remy\Documents\GitHub\VB2010_froggDadCam\FroggDadCam\obj\x86\Debug\FroggDadCam.exe
+C:\Users\remy\Documents\GitHub\VB2010_froggDadCam\FroggDadCam\obj\x86\Debug\FroggDadCam.xml
+C:\Users\remy\Documents\GitHub\VB2010_froggDadCam\FroggDadCam\obj\x86\Debug\FroggDadCam.pdb
+C:\Users\remy\Documents\GitHub\VB2010_froggDadCam\FroggDadCam\bin\Debug\FroggDadCam.exe
+C:\Users\remy\Documents\GitHub\VB2010_froggDadCam\FroggDadCam\bin\Debug\FroggDadCam.pdb
+C:\Users\remy\Documents\GitHub\VB2010_froggDadCam\FroggDadCam\bin\Debug\FroggDadCam.xml
+C:\Users\remy\Documents\GitHub\VB2010_froggDadCam\FroggDadCam\bin\Debug\Interop.WMPLib.dll
+C:\Users\remy\Documents\GitHub\VB2010_froggDadCam\FroggDadCam\bin\Debug\AxInterop.WMPLib.dll
+C:\Users\remy\Documents\GitHub\VB2010_froggDadCam\FroggDadCam\obj\x86\Debug\DadCam.Configuration.resources
+C:\Users\remy\Documents\GitHub\VB2010_froggDadCam\FroggDadCam\obj\x86\Debug\DadCam.DadCam.resources
+C:\Users\remy\Documents\GitHub\VB2010_froggDadCam\FroggDadCam\obj\x86\Debug\DadCam.Frogg.resources
+C:\Users\remy\Documents\GitHub\VB2010_froggDadCam\FroggDadCam\obj\x86\Debug\DadCam.Resources.resources
+C:\Users\remy\Documents\GitHub\VB2010_froggDadCam\FroggDadCam\obj\x86\Debug\FroggDadCam.vbproj.GenerateResource.Cache
+C:\Users\remy\Documents\GitHub\VB2010_froggDadCam\FroggDadCam\obj\x86\Debug\DadCam.MultiCam.resources

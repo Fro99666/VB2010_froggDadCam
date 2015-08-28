@@ -1,0 +1,5 @@
+﻿Public Class Frogg
+    Private Sub Frogg_Click(sender As System.Object, e As System.EventArgs) Handles MyBase.Click
+        Me.Close()
+    End Sub
+End Class

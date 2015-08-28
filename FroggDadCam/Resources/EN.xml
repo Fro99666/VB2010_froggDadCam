@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<lang>
+    <Configuration>
+        <ConfPathDialDesc>Select video download path</ConfPathDialDesc>
+        <ConfOk>Configuration saved</ConfOk>
+        <ConfErr>Please check the informations filled</ConfErr>
+        <ConfConnErr>Unable to connect to camera, please check filled information</ConfConnErr>
+        <ConfModelErr>Camera model is empty</ConfModelErr>
+        <ConfUrlErr>Camera address is invalid</ConfUrlErr>
+        <ConfPassErr>Password is empty</ConfPassErr>
+        <ConfPassVerifErr>Password confirmation doesn't match with password</ConfPassVerifErr>
+        <ConfLogErr>Login is empty</ConfLogErr>
+        <ConfPathErr>Download path is empty</ConfPathErr>
+        <ConfPathExistErr>Download path doesn't exist</ConfPathExistErr>
+        <ConfLangErr>Language is empty</ConfLangErr>
+        <PanelTestTxt>Checking connexion, please wait...</PanelTestTxt>
+        <ConfIDTxt>Identity</ConfIDTxt>
+        <ConfModelTxt>Camera model</ConfModelTxt>
+        <ConfUrlTxt>Camera address</ConfUrlTxt>
+        <ConfLogTxt>Login</ConfLogTxt>
+        <ConfPassTxt>Password</ConfPassTxt>
+        <ConfPassVerifTxt>Password verification</ConfPassVerifTxt>
+        <ConfPathTxt>Download path</ConfPathTxt>
+        <ConfLangTxt>Language</ConfLangTxt>
+        <ConfSave>Save</ConfSave>
+        <ConfDel>Delete</ConfDel>
+        <ConfNew>Add a new camera configuration</ConfNew>
+    </Configuration>
+    <DadCam>
+        <AppDlExit>Do you wish to exit application while download are still pending ?</AppDlExit>
+        <AppExitTitle>Exit application</AppExitTitle>
+        <AppVersion>Version</AppVersion>
+        <ErrConn>Connexion error</ErrConn>
+        <ErrDownloading>An error occurred while downloading</ErrDownloading>
+        <ErrDownload>Download error !</ErrDownload>
+        <cam>Camera</cam>
+        <camLive>Live camera from</camLive>
+        <camMem>Memory card</camMem>
+        <PanelMaskRestart>Restart in progress ...</PanelMaskRestart>      
+        <msgRestart>Do you wish to restart camera ? it will take around 1 minute</msgRestart>
+        <msgRestartTitle>Memory card management</msgRestartTitle>
+        <msgRestarting>Camera is restarting, please wait</msgRestarting>
+        <msgRestarted>Camera has restarted !</msgRestarted>
+        <msgFormat>Do you wish to format camera memory card ?</msgFormat>
+        <msgFormatTitle>Memory card management</msgFormatTitle>
+        <msgFormating>Please wait while memory card is being formatted</msgFormating>
+        <msgFormatingS>Formatting ...</msgFormatingS>
+        <msgFormated>Memory card has been successfully formatted !</msgFormated>
+        <msgVideoMenuLoad>Loading camera videos, please wait</msgVideoMenuLoad>
+        <msgDownloadStart>Starting downloads</msgDownloadStart>
+        <msgDownloadCancel>Cancel downloads</msgDownloadCancel>
+        <msgDownloadCancelTitle>You are going to cancel all pending downloads, do you wish to continue ?</msgDownloadCancelTitle>
+        <msgFile>file</msgFile>
+        <msgOn>on</msgOn>
+        <msgCurrentFile>current file</msgCurrentFile>
+        <msgDeleteCam>Do you wish to delete this camera configuration ?</msgDeleteCam>
+        <msgDeleteCamTitle>Delete camera configuration</msgDeleteCamTitle>
+        <msgDeleteCamComplete>Camera configuration has been successfully removed</msgDeleteCamComplete>      
+        <listVidName>Name</listVidName>
+        <listVidDate>Date</listVidDate>
+        <listVidSize>Size</listVidSize>
+        <listVidLink>Link</listVidLink>
+        <DadCamTxt>Watch camera</DadCamTxt>
+        <MenuViewTxt>Live camera</MenuViewTxt>
+        <MenuViewMiniTxt>Live camera minimized</MenuViewMiniTxt>
+      <MenuViewAllTxt>Live all camera</MenuViewAllTxt>
+        <MenuDLTxt>Download video</MenuDLTxt>
+        <MenuOptionTxt>Options</MenuOptionTxt>
+        <MenuCamRestartTxt>Restart camera</MenuCamRestartTxt>
+        <MenuMemTxt>Format memory card</MenuMemTxt>
+        <MenuOfficialTxt>Official camera website</MenuOfficialTxt>
+        <MenuConfigTxt>Configuration</MenuConfigTxt>
+        <MenuAdvancedConfigTxt>Advanced Configuration</MenuAdvancedConfigTxt>
+        <PanelVidTitle>Available video list</PanelVidTitle>
+        <BtnVidDL>Download</BtnVidDL>
+        <btnVidCancel>Cancel</btnVidCancel>
+    </DadCam>
+    <frogg>
+        <MenuBaniereTxt>banner</MenuBaniereTxt>
+        <MenuFroggTxt>poweredBy</MenuFroggTxt>
+    </frogg>
+</lang>

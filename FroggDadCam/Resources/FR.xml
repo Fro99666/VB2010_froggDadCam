@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<lang>
+    <Configuration>
+        <ConfPathDialDesc>Sélectionnez un répertoire de téléchargement des vidéos</ConfPathDialDesc>
+        <ConfOk>Configuration sauvegardée</ConfOk>
+        <ConfErr>Merci de corriger votre saisie</ConfErr>
+        <ConfConnErr>Impossible de se connecter à la caméra, merci de vérifier les informations saisies</ConfConnErr>
+        <ConfModelErr>Vous n'avez pas saisi de model de caméra</ConfModelErr>
+        <ConfUrlErr>L'adresse de la caméra n'est pas valide</ConfUrlErr>
+        <ConfPassErr>Vous n'avez pas saisi de mot de passe</ConfPassErr>
+        <ConfPassVerifErr>Le mot de passe ne correspond pas à sa confirmation</ConfPassVerifErr>
+        <ConfLogErr>Vous n'avez pas saisi d'identifiant</ConfLogErr>
+        <ConfPathErr>Le répertoire de téléchargement n'est pas séléctionné</ConfPathErr>
+        <ConfPathExistErr>Le répertoire de téléchargement n'existe pas</ConfPathExistErr>
+        <ConfLangErr>Vous n'avez pas choisi de langage></ConfLangErr>
+        <PanelTestTxt>Test de la connexion en cours, merci de patienter...</PanelTestTxt>
+        <ConfIDTxt>Identifiant</ConfIDTxt>
+        <ConfModelTxt>Modèle de caméra</ConfModelTxt>
+        <ConfUrlTxt>Adresse de la caméra</ConfUrlTxt>
+        <ConfLogTxt>Identifiant</ConfLogTxt>
+        <ConfPassTxt>Mot de passe</ConfPassTxt>
+        <ConfPassVerifTxt>Confirmer le mot de passe</ConfPassVerifTxt>
+        <ConfPathTxt>Répertoire de téléchargement</ConfPathTxt>
+        <ConfLangTxt>Langage</ConfLangTxt>
+        <ConfSave>Sauvegarder</ConfSave>
+        <ConfDel>Effacer</ConfDel>
+        <ConfNew>Ajouter une nouvelle caméra</ConfNew>
+    </Configuration>
+    <DadCam>
+        <AppDlExit>Etes vous sûre de vouloir quitter l'application alors que vous avez encore des téléchargements en cours ?</AppDlExit>
+        <AppExitTitle>Quitter l'application</AppExitTitle>
+        <AppVersion>Version</AppVersion>
+        <ErrConn>Erreur de connexion</ErrConn>
+        <ErrDownloading>Une erreur est survenue lors du téléchargement</ErrDownloading>
+        <ErrDownload>Téléchargement Echoué !</ErrDownload>
+        <cam>Caméra</cam>
+        <camLive>En direct de la caméra sur</camLive>
+        <camMem>Carte mémoire</camMem>
+        <PanelMaskRestart>Redémarrage en cours ...</PanelMaskRestart>
+        <msgRestart>Etes vous sûre de vouloir redémarrer caméra ? Attention, le redémarrage dure 1 minute</msgRestart>
+        <msgRestartTitle>Gestion de la carte mémoire</msgRestartTitle>
+        <msgRestarting>Redémarrage de la caméra en cours, merci de patienter</msgRestarting>
+        <msgRestarted>La caméra a redémarré !</msgRestarted>
+        <msgFormat>Etes vous sûre de vouloir effacer le contenu de la carte mémoire de la caméra ?</msgFormat>
+        <msgFormatTitle>Gestion de la carte mémoire</msgFormatTitle>
+        <msgFormating>Formatage de la carte mémoire en cours, merci de patienter</msgFormating>
+        <msgFormatingS>Formatage en cours ...</msgFormatingS>
+        <msgFormated>La carte mémoire à été formatée avec succès !</msgFormated>
+        <msgVideoMenuLoad>Chargement des vidéos de la caméra en cours, merci de patienter</msgVideoMenuLoad>
+        <msgDownloadStart>Démarrage des téléchargements</msgDownloadStart>
+        <msgDownloadCancel>Annulation des téléchargements</msgDownloadCancel>
+        <msgDownloadCancelTitle>Vous allez annuler les téléchargements restant, êtes vous sûr de vouloir continuer ?</msgDownloadCancelTitle>
+        <msgFile>fichier</msgFile>
+        <msgOn>sur</msgOn>
+        <msgCurrentFile>fichier en cours</msgCurrentFile>
+        <msgDeleteCam>Etes vous sûre de vouloir supprimer cette caméra ?</msgDeleteCam>
+        <msgDeleteCamTitle>Suppression de caméra</msgDeleteCamTitle>
+        <msgDeleteCamComplete>La caméra a été supprimée avec succès</msgDeleteCamComplete>
+        <listVidName>Nom</listVidName>
+        <listVidDate>Date</listVidDate>
+        <listVidSize>Poids</listVidSize>
+        <listVidLink>Liens</listVidLink>
+        <DadCamTxt>Caméra de surveillance</DadCamTxt>
+        <MenuViewTxt>Voir la caméra en direct</MenuViewTxt>
+        <MenuViewMiniTxt>Voir la caméra en taille reduite</MenuViewMiniTxt>
+      <MenuViewAllTxt>Voir toutes les caméras</MenuViewAllTxt>
+        <MenuDLTxt>Télécharger les vidéos</MenuDLTxt>
+        <MenuOptionTxt>Options</MenuOptionTxt>
+        <MenuCamRestartTxt>Redémarrer la caméra</MenuCamRestartTxt>
+        <MenuMemTxt>Effacer la carte mémoire</MenuMemTxt>
+        <MenuOfficialTxt>Site Officiel de la caméra</MenuOfficialTxt>
+        <MenuConfigTxt>Configuration</MenuConfigTxt>
+        <MenuAdvancedConfigTxt>Configuration Avancée</MenuAdvancedConfigTxt>      
+        <PanelVidTitle>Liste des vidéos disponibles</PanelVidTitle>
+        <BtnVidDL>Télécharger</BtnVidDL>
+        <btnVidCancel>Annuler</btnVidCancel>
+    </DadCam>
+    <frogg>
+        <MenuBaniereTxt>bannière</MenuBaniereTxt>
+        <MenuFroggTxt>poweredBy</MenuFroggTxt>
+    </frogg>
+</lang>

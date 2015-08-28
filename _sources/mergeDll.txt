@@ -1,0 +1,14 @@
+1] set ILMerge.exe.config
+
+<configuration>
+    <startup useLegacyV2RuntimeActivationPolicy="true">
+        <requiredRuntime safemode="true" imageVersion="v4.0.30319" version="v4.0.30319"/>
+    </startup>
+</configuration>
+
+2] Merge DLL
+
+cd "C:\Program Files (x86)\Microsoft\ILMerge>"
+ilmerge.exe C:\Users\remy\Documents\GitHub\VB2010_froggDadCam\FroggDadCam\bin\Release\FroggDadCam.exe C:\Users\remy\Documents\GitHub\VB2010_froggDadCam\FroggDadCam\bin\Release\AxInterop.WMPLib.dll /out:C:\FroggDadCam_v1.000.exe 
+
+in this case requier AxInterop.WMPLib.dll + Interop.WMPLib.dll

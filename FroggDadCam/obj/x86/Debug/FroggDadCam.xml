@@ -1,0 +1,77 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+FroggDadCam
+</name>
+</assembly>
+<members>
+<member name="P:DadCam.My.Resources.Resources.ResourceManager">
+	<summary>
+  Retourne l'instance ResourceManager mise en cache utilisée par cette classe.
+</summary>
+</member><member name="P:DadCam.My.Resources.Resources.Culture">
+	<summary>
+  Remplace la propriété CurrentUICulture du thread actuel pour toutes
+  les recherches de ressources à l'aide de cette classe de ressource fortement typée.
+</summary>
+</member><member name="P:DadCam.My.Resources.Resources.AxInterop_WMPLib">
+	<summary>
+  Recherche une ressource localisée de type System.Byte[].
+</summary>
+</member><member name="P:DadCam.My.Resources.Resources.d">
+	<summary>
+  Recherche une ressource localisée de type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:DadCam.My.Resources.Resources.EN">
+	<summary>
+  Recherche une chaîne localisée semblable à &lt;?xml version="1.0" encoding="utf-8" ?&gt;
+&lt;lang&gt;
+    &lt;Configuration&gt;
+        &lt;ConfPathDialDesc&gt;Select video download path&lt;/ConfPathDialDesc&gt;
+        &lt;ConfOk&gt;Configuration saved&lt;/ConfOk&gt;
+        &lt;ConfErr&gt;Please check the informations filled&lt;/ConfErr&gt;
+        &lt;ConfConnErr&gt;Unable to connect to camera, please check filled information&lt;/ConfConnErr&gt;
+        &lt;ConfModelErr&gt;Camera model is empty&lt;/ConfModelErr&gt;
+        &lt;ConfUrlErr&gt;Camera address is invalid&lt;/ConfUrlErr&gt;
+        &lt;ConfPassErr&gt;Password is empty&lt;/C [le reste de la chaîne a été tronqué]";.
+</summary>
+</member><member name="P:DadCam.My.Resources.Resources.FR">
+	<summary>
+  Recherche une chaîne localisée semblable à &lt;?xml version="1.0" encoding="utf-8" ?&gt;
+&lt;lang&gt;
+    &lt;Configuration&gt;
+        &lt;ConfPathDialDesc&gt;Sélectionnez un répertoire de téléchargement des vidéos&lt;/ConfPathDialDesc&gt;
+        &lt;ConfOk&gt;Configuration sauvegardée&lt;/ConfOk&gt;
+        &lt;ConfErr&gt;Merci de corriger votre saisie&lt;/ConfErr&gt;
+        &lt;ConfConnErr&gt;Impossible de se connecter à la caméra, merci de vérifier les informations saisies&lt;/ConfConnErr&gt;
+        &lt;ConfModelErr&gt;Vous n'avez pas saisi de model de caméra&lt;/ConfModelErr&gt;
+        &lt;ConfUrlErr&gt;L'adresse d [le reste de la chaîne a été tronqué]";.
+</summary>
+</member><member name="P:DadCam.My.Resources.Resources.frogglogo">
+	<summary>
+  Recherche une ressource localisée de type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:DadCam.My.Resources.Resources.Interop_WMPLib">
+	<summary>
+  Recherche une ressource localisée de type System.Byte[].
+</summary>
+</member><member name="P:DadCam.My.Resources.Resources.l">
+	<summary>
+  Recherche une ressource localisée de type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:DadCam.My.Resources.Resources.r">
+	<summary>
+  Recherche une ressource localisée de type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:DadCam.My.Resources.Resources.u">
+	<summary>
+  Recherche une ressource localisée de type System.Drawing.Bitmap.
+</summary>
+</member><member name="T:DadCam.My.Resources.Resources">
+	<summary>
+  Une classe de ressource fortement typée destinée, entre autres, à la consultation des chaînes localisées.
+</summary>
+</member>
+</members>
+</doc>
