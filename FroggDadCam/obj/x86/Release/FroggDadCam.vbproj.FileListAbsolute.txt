@@ -29,7 +29,6 @@ C:\Users\remy\Documents\GitHub\VB2010_froggDadCam\FroggDadCam\obj\x86\Release\Fr
 C:\Users\remy\Documents\GitHub\VB2010_froggDadCam\FroggDadCam\obj\x86\Release\DadCam.Configuration.resources
 C:\Users\remy\Documents\GitHub\VB2010_froggDadCam\FroggDadCam\obj\x86\Release\DadCam.DadCam.resources
 C:\Users\remy\Documents\GitHub\VB2010_froggDadCam\FroggDadCam\obj\x86\Release\DadCam.MultiCam.resources
-C:\Users\remy\Documents\GitHub\VB2010_froggDadCam\FroggDadCam\obj\x86\Release\DadCam.VideoPlayer.resources
 C:\Users\remy\Documents\GitHub\VB2010_froggDadCam\FroggDadCam\obj\x86\Release\DadCam.Frogg.resources
 C:\Users\remy\Documents\GitHub\VB2010_froggDadCam\FroggDadCam\obj\x86\Release\DadCam.Resources.resources
 C:\Users\remy\Documents\GitHub\VB2010_froggDadCam\FroggDadCam\obj\x86\Release\FroggDadCam.vbproj.GenerateResource.Cache

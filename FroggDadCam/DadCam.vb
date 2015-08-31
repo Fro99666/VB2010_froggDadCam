@@ -202,6 +202,8 @@ Public Class DadCam
         dlPath = My.Computer.Registry.GetValue("HKEY_CURRENT_USER\Software\" & registryKey & "\" & camID, "path", "")
         Dim tmpLang = My.Computer.Registry.GetValue("HKEY_CURRENT_USER\Software\" & registryKey & "\" & camID, "lang", language)
         If Not tmpLang = "" Then language = tmpLang
+        'Should not be requiered cause default value should be taken, but it is not the case, so i put this bidouille
+        If camTot = 0 Then camTot = 1
     End Sub
 
     'save config
