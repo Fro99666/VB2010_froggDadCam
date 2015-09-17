@@ -35,6 +35,7 @@ Partial Class Configuration
         Me.ConfPassVerif = New System.Windows.Forms.MaskedTextBox()
         Me.ConfPassVerifTxt = New System.Windows.Forms.Label()
         Me.PanelTest = New System.Windows.Forms.Panel()
+        Me.ProgressBarNewVersion = New System.Windows.Forms.ProgressBar()
         Me.PanelTestTxt = New System.Windows.Forms.Label()
         Me.ConfLangTxt = New System.Windows.Forms.Label()
         Me.ConfLang = New System.Windows.Forms.ComboBox()
@@ -141,6 +142,7 @@ Partial Class Configuration
         '
         'PanelTest
         '
+        Me.PanelTest.Controls.Add(Me.ProgressBarNewVersion)
         Me.PanelTest.Controls.Add(Me.PanelTestTxt)
         Me.PanelTest.Dock = System.Windows.Forms.DockStyle.Fill
         Me.PanelTest.Location = New System.Drawing.Point(0, 0)
@@ -148,6 +150,14 @@ Partial Class Configuration
         Me.PanelTest.Size = New System.Drawing.Size(377, 271)
         Me.PanelTest.TabIndex = 12
         Me.PanelTest.Visible = False
+        '
+        'ProgressBarNewVersion
+        '
+        Me.ProgressBarNewVersion.Location = New System.Drawing.Point(57, 147)
+        Me.ProgressBarNewVersion.Name = "ProgressBarNewVersion"
+        Me.ProgressBarNewVersion.Size = New System.Drawing.Size(258, 23)
+        Me.ProgressBarNewVersion.TabIndex = 1
+        Me.ProgressBarNewVersion.Visible = False
         '
         'PanelTestTxt
         '
@@ -292,4 +302,5 @@ Partial Class Configuration
     Friend WithEvents ConfDel As System.Windows.Forms.Button
     Friend WithEvents ConfNew As System.Windows.Forms.Button
     Friend WithEvents ConfId As System.Windows.Forms.ComboBox
+    Friend WithEvents ProgressBarNewVersion As System.Windows.Forms.ProgressBar
 End Class

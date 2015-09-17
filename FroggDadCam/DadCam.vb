@@ -5,18 +5,20 @@ Imports System.Text.RegularExpressions
 Imports System.Threading
 Imports Microsoft.Win32
 
-
 'TODO
 '====
-'1] fix multicam display (not display or refreshing)
-'2] media player ADD CREDENTIALS
+'1] voir l'annulation des downloads sous windows 8
 
 'TODO BONUS
 '==========
+'#####Todo : Add update to menu if cancel update 
+'#####Todo : download is slow [?]
+'#####Todo : read live video on double click
 '#####Todo : design forms
 '#####Todo : other cam constructor
-'#####Todo : put all view in same tab + switch to cam directly from menu ?
-'#####Todo : ????? dans vidéo ajouter le repertoire des vidéos téléchargées
+'#####Todo : put all view in same tab + switch to cam directly from menu [?]
+
+'[?] mean perhaps !
 
 Public Class DadCam
 
@@ -38,9 +40,11 @@ Public Class DadCam
     Public dlPath As String 'TODO : change to currpath ?
     'lang
     Public language As String = "EN"
+    'path where exe is started (used for update)
+    Public exePath As String
 
     ' ### SCRIPT INFO ###
-    Private Const version As String = "1.000(BETA)"
+    Private Const version As String = "1.000"
     Public Const encryptLog As String = "Fr099d4DP4sSC0d3"
     Public Const encryptPass As String = "Fr099d4DL09C0d3"
     Public Const registryKey As String = "FroggDadCam"
@@ -56,6 +60,8 @@ Public Class DadCam
     Public camModel = New ArrayList()
 
     ' ###  FROGG INFOS ###
+    Private Const froggVersion As String = "http://version.soft.frogg.fr"
+    Private Const froggVersionFile As String = "v"
     Private Const froggcv As String = "http://cv.frogg.fr"
     Private Const froggwiki As String = "http://wiki.frogg.fr"
     Private Const froggyoutube As String = "http://youtube.frogg.fr"
@@ -81,7 +87,7 @@ Public Class DadCam
 
 #Region "MAIN LOAD/UNLOAD"
 
-    'Init Script
+    'Pre Init Script
     Private Sub DadCam_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
         '####################
         '### AQUILAVIZION ###
@@ -97,7 +103,7 @@ Public Class DadCam
         urls.Add("AQUILAVIZION_urlCamMemInfo", "/cgi-bin/hi3510/param.cgi?cmd=getserverinfo")
         urls.Add("AQUILAVIZION_urlCamConfig", "/web/initialize.html")
         'cam move
-        urls.Add("AQUILAVIZION_urlCamMoveUp", "/cgi-bin/hi3510/ytup.cg")
+        urls.Add("AQUILAVIZION_urlCamMoveUp", "/cgi-bin/hi3510/ytup.cgi")
         urls.Add("AQUILAVIZION_urlCamMoveDw", "/cgi-bin/hi3510/ytdown.cgi")
         urls.Add("AQUILAVIZION_urlCamMoveLe", "/cgi-bin/hi3510/ytleft.cgi")
         urls.Add("AQUILAVIZION_urlCamMoveRi", "/cgi-bin/hi3510/ytright.cgi")
@@ -109,6 +115,8 @@ Public Class DadCam
     Private Sub DadCam_Shown(sender As System.Object, e As System.EventArgs) Handles MyBase.Shown
         'load config
         loadConfig()
+        'check if version is up to date
+        checkVersion()
     End Sub
 
     'exit script
@@ -137,6 +145,20 @@ Public Class DadCam
         'refresh > hide main form
         MyBase.Hide()
         MyBase.Visible = False
+
+        'set user lang
+        Lang.setLang(language)
+
+        'refresh diplay
+        Application.DoEvents()
+
+        'check if it is started from update downloaded file
+        checkPath()
+
+        'hide panel vid if loaded from any cam
+        clearVidList()
+        PanelVid.Hide()
+
         'set loading screen 
         Configuration.Show()
         Configuration.PanelTest.Visible = True
@@ -145,9 +167,6 @@ Public Class DadCam
 
         'hide multi view if single camera configurated
         If camTot > 1 Then MenuViewAll.Visible = True Else MenuViewAll.Visible = False
-
-        'set user lang
-        Lang.setLang(language)
 
         'set cache credentials
         setCacheCredentials()
@@ -167,15 +186,97 @@ Public Class DadCam
             MyBase.Show()
             MyBase.Visible = True
         End If
+
         'set script version
         setVersion()
+
         'Show camera view
         showCam()
+
         'Show memory status (force first tick)
         showMem()
+
         'loaded
         isCamLoaded = True
     End Sub
+
+#End Region
+
+
+#Region "UPDATE"
+
+    'check if version is uptodate, else download new version
+    Private Sub checkVersion()
+        'get version text file
+        Dim liveVersion = getHtmlBasicAuth(froggVersion & "/" & registryKey & "/" & froggVersionFile, False)
+        'if outdated
+        If liveVersion > version Then
+            If MsgBox(Lang.AppNewVersion & vbCrLf & registryKey & " " & Lang.AppVersion & " " & liveVersion, MsgBoxStyle.YesNo, registryKey) = MsgBoxResult.Yes Then
+                Try
+                    'hidding other panels
+                    Me.Hide()
+                    MultiCam.Hide()
+                    Frogg.Hide()
+                    'init display
+                    Configuration.Show()
+                    Configuration.PanelTestTxt.Text = Lang.msgUpdating
+                    Configuration.ProgressBarNewVersion.Visible = True
+                    'init vars
+                    isDownloading = True
+                    Dim downloadTarget = My.Computer.FileSystem.SpecialDirectories.Temp & "/" & registryKey & ".exe"
+                    Dim Client As WebClient = New WebClient
+                    'set events
+                    AddHandler Client.DownloadProgressChanged, AddressOf update_ProgressChanged
+                    AddHandler Client.DownloadFileCompleted, AddressOf update_DownloadCompleted
+                    'prepare download
+                    Client.Credentials = New NetworkCredential(urlLog, urlPas)
+                    Client.Headers.Add("user-agent", HttpUserAgent)
+                    If System.IO.File.Exists(downloadTarget) = True Then System.IO.File.Delete(downloadTarget)
+                    'download
+                    Client.DownloadFileAsync(New Uri(froggVersion & "/" & registryKey & "/" & registryKey & ".exe"), downloadTarget)
+                    While isDownloading = True
+                        Thread.Sleep(50) : Application.DoEvents()
+                    End While
+                    're-run the exe
+                    Process.Start(downloadTarget)
+                    Me.Close()
+                Catch ex As Exception
+                    MessageBox.Show("Error : " & ex.Message)
+                    Console.Write(ex)
+                    isDownloading = False
+                End Try
+            Else
+                'TODO Add update to menu ! ?
+                'MessageBox.Show("TODO ADD TO MENU ...")
+            End If
+        End If
+    End Sub
+
+    'check if start from update file or original exe
+    Private Sub checkPath()
+        If Not exePath = Replace(Application.ExecutablePath, ".EXE", ".exe") Then
+            'copy file to application original path & then restart it
+            If System.IO.File.Exists(Application.ExecutablePath) = True Then
+                System.IO.File.Delete(exePath)
+                System.IO.File.Copy(Application.ExecutablePath, exePath)
+                MessageBox.Show(registryKey & " " & Lang.msgUpdated)
+                Process.Start(exePath)
+                Me.Close()
+            End If
+        End If
+    End Sub
+
+
+    'event download progress
+    Private Sub update_ProgressChanged(ByVal sender As Object, ByVal e As DownloadProgressChangedEventArgs)
+        Configuration.ProgressBarNewVersion.Value = e.ProgressPercentage
+    End Sub
+
+    'event download complete
+    Private Sub update_DownloadCompleted(ByVal sender As Object, ByVal e As System.ComponentModel.AsyncCompletedEventArgs)
+        isDownloading = False
+    End Sub
+
 
 #End Region
 
@@ -200,6 +301,7 @@ Public Class DadCam
         urlLog = decodeStr(My.Computer.Registry.GetValue("HKEY_CURRENT_USER\Software\" & registryKey & "\" & camID, "log", ""), encryptLog)
         urlPas = decodeStr(My.Computer.Registry.GetValue("HKEY_CURRENT_USER\Software\" & registryKey & "\" & camID, "pass", ""), encryptPass)
         dlPath = My.Computer.Registry.GetValue("HKEY_CURRENT_USER\Software\" & registryKey & "\" & camID, "path", "")
+        exePath = My.Computer.Registry.GetValue("HKEY_CURRENT_USER\Software\" & registryKey & "\", "installpath", Replace(Application.ExecutablePath, ".EXE", ".exe"))
         Dim tmpLang = My.Computer.Registry.GetValue("HKEY_CURRENT_USER\Software\" & registryKey & "\" & camID, "lang", language)
         If Not tmpLang = "" Then language = tmpLang
         'Should not be requiered cause default value should be taken, but it is not the case, so i put this bidouille
@@ -216,6 +318,7 @@ Public Class DadCam
         My.Computer.Registry.SetValue("HKEY_CURRENT_USER\Software\" & registryKey & "\" & camID, "cam", cam)
         My.Computer.Registry.SetValue("HKEY_CURRENT_USER\Software\" & registryKey & "\" & camID, "path", path)
         My.Computer.Registry.SetValue("HKEY_CURRENT_USER\Software\" & registryKey & "\" & camID, "lang", langage)
+        My.Computer.Registry.SetValue("HKEY_CURRENT_USER\Software\" & registryKey, "installpath", Replace(Application.ExecutablePath, ".EXE", ".exe"))
     End Sub
 
     'remove config
@@ -238,7 +341,7 @@ Public Class DadCam
         'close reg
         regKey.Close()
     End Sub
- 
+
     'load config
     Private Sub loadConfig()
         'get saved config
@@ -341,7 +444,7 @@ Public Class DadCam
     End Function
 
     'get Binary response with http basic auth
-    Public Function getBinBasicAuth(url As String, log As String, pass As String) As Byte()
+    Public Function getBinBasicAuth(url As String, Optional log As String = "", Optional pass As String = "") As Byte()
         Dim loHttp As HttpWebRequest
         Dim SourceStream As System.IO.Stream
         Dim loWebResponse As HttpWebResponse
@@ -350,7 +453,7 @@ Public Class DadCam
             ' *** Establish the request
             loHttp = HttpWebRequest.Create(url)
             ' *** Set properties
-            loHttp.Credentials = New NetworkCredential(log, pass)
+            If Not log = "" Then loHttp.Credentials = New NetworkCredential(log, pass)
             loHttp.UserAgent = HttpUserAgent
             loHttp.Accept = HttpAccept
             ' *** Retrieve request info headers
@@ -445,21 +548,7 @@ Public Class DadCam
     Public Sub showWebAuth(brower As WebBrowser, url As String, user As String, pass As String, Optional cookieName As String = "", Optional cookieValue As String = "")
         brower.ScriptErrorsSuppressed = True
         If Not cookieName = "" Then InternetSetCookie(url, cookieName, cookieValue)
-
-        'MessageBox.Show("Authorization: Basic " & System.Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(user & ":" & pass)))
-        brower.Navigate(url, "", Nothing, "Authorization: Basic " & System.Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(user & ":" & pass)) & Chr(10) & Chr(13))
-        ' & "User-Agent: " & HttpUserAgent & Chr(10) & Chr(13) & "Accept: " & HttpAccept & Chr(10) & Chr(13)
-
-
-        ''encode the credentials in Base64
-        'Dim authData = System.Text.UnicodeEncoding.UTF8.GetBytes(user & ": " & pass)
-        ''build the whole header
-        'Dim authHeader1 = "Authorization: Basic " & Convert.ToBase64String(authData) & Chr(10) & Chr(13)
-        'Dim authHeader2 = "Authorization: Basic " & System.Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(user & ":" & pass)) & Chr(10) & Chr(13)
-        'Dim authHeader3 = "Authorization: Basic " & Convert.ToBase64String(authData) & "\r\n"
-        'Dim authHeader4 = "Authorization: Basic " & System.Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(user & ":" & pass)) & "\r\n"
-        ''open the page with the extra header
-        'brower.Navigate(url, "", Nothing, authHeader4)
+        brower.Navigate(url, "", Nothing, "Authorization: Basic " & System.Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(user & ":" & pass)))
     End Sub
 
     'set cache credentials
@@ -468,6 +557,12 @@ Public Class DadCam
         myCredentials.Remove(New Uri(urlCam), "Basic")
         myCredentials.Add(New Uri(urlCam), "Basic", New NetworkCredential(urlLog, urlPas))
     End Sub
+
+    'set url to http://log:pass@url
+    Public Function urlPass(ByVal urlCam As String, ByVal urlLog As String, ByVal urlPas As String)
+        Dim arrUrl = Split(urlCam, "://")
+        urlPass = arrUrl(0) & "://" & urlLog & ":" & urlPas & "@" & arrUrl(1)
+    End Function
 
 #End Region
 
@@ -481,18 +576,21 @@ Public Class DadCam
         WebCam1.Location = New Point(0, 27)
         Me.Size = New System.Drawing.Size(1015, 685)
         StatusCamTxt.Text = Lang.camLive & " " & urlCam & " !"
-        showWebAuth(WebCam1, urlCam & urls(currModel & "_urlCamView"), urlLog, urlPas, "language", getCamLang(language))
+        showWebAuth(WebCam1, urlPass(urlCam, urlLog, urlPas) & urls(currModel & "_urlCamView"), urlLog, urlPas, "language", getCamLang(language))
     End Sub
 
     'show mini cam live video
     Private Sub showMiniCam()
+        'hide menu
         hideMenu()
+        'hide video list if opened
+        PanelVid.Visible = False
+        'changing display
         WebCam1.Dock = DockStyle.None
         WebCam1.Location = New Point(-10, -45)
         Me.Size = New System.Drawing.Size(325, 250)
         StatusCamTxt.Text = Lang.camLive & " " & urlCam & " !"
-        'showWebAuth(WebCam1, "http://127.0.0.1/kw5/KW_TEST/testHeader.php", urlLog, urlPas, "language", getCamLang(language))
-        showWebAuth(WebCam1, urlCam & urls(currModel & "_urlMiniCamView"), urlLog, urlPas, "language", getCamLang(language))
+        showWebAuth(WebCam1, urlPass(urlCam, urlLog, urlPas) & urls(currModel & "_urlMiniCamView"), urlLog, urlPas, "language", getCamLang(language))
     End Sub
 
     Public Function getCamLang(userLang As String)
@@ -762,6 +860,13 @@ Public Class DadCam
 
 #Region "VIDEO DL FUNC"
 
+    'reinit video list
+    Private Sub clearVidList()
+        ListVid.Clear()
+        ListVidDate.Items.Clear()
+        isVidMenuLoaded = False
+    End Sub
+
     'load download menu
     Private Sub loadVidMenuList()
         If Not isVidMenuLoaded Then
@@ -797,8 +902,8 @@ Public Class DadCam
         ListVid.View = View.Details
         ListVid.Columns.Clear()
         ListVid.Columns.Add("", 20, HorizontalAlignment.Center)
-        ListVid.Columns.Add(Lang.listVidName, 157, HorizontalAlignment.Left)
-        ListVid.Columns.Add(Lang.listVidDate, 98, HorizontalAlignment.Center)
+        ListVid.Columns.Add(Lang.listVidName, 160, HorizontalAlignment.Left)
+        ListVid.Columns.Add(Lang.listVidDate, 105, HorizontalAlignment.Center)
         ListVid.Columns.Add(Lang.listVidSize, 40, HorizontalAlignment.Center)
         ListVid.Columns.Add(Lang.listVidLink, 0, HorizontalAlignment.Center)
         lvwColumnSorter = New ListViewColumnSorter()
@@ -846,7 +951,29 @@ Public Class DadCam
 
     'add colum sort event
     Private lvwColumnSorter As ListViewColumnSorter
+    Private fullCheckedVid As Boolean = False
     Private Sub ListVid_ColumnClick(sender As System.Object, e As ColumnClickEventArgs) Handles ListVid.ColumnClick
+
+        'case click first column 
+        Dim MousePosition = Me.ListVid.PointToClient(Control.MousePosition)
+        Dim hit = Me.ListVid.HitTest(MousePosition)
+        If MousePosition.X <= 20 Then
+            'prevent null pointer exception
+            If hit.Item Is Nothing Then Exit Sub
+            'invert selection
+            fullCheckedVid = Not fullCheckedVid
+            Dim columnindex = hit.Item.SubItems.IndexOf(hit.SubItem)
+            For i = 0 To Me.ListVid.Items.Count - 1
+                Dim currItem = Me.ListVid.Items(i)
+                If currItem.BackColor = Color.LightGreen Then
+                    currItem.Checked = False
+                Else
+                    currItem.Checked = fullCheckedVid
+                End If
+            Next
+            Exit Sub
+        End If
+
         ' Determine if the clicked column is already the column that is 
         ' being sorted.
         If (e.Column = lvwColumnSorter.SortColumn) Then
@@ -872,7 +999,7 @@ Public Class DadCam
     End Sub
 
     'download bin file
-    Private Function downloadBinFile(url As String, target As String, log As String, pass As String)
+    Private Function downloadBinFile(url As String, target As String, Optional log As String = "", Optional pass As String = "")
         Try
             Dim binFile = getBinBasicAuth(url, log, pass)
             Dim savedfile As FileStream = File.OpenWrite(target)
@@ -892,7 +1019,6 @@ Public Class DadCam
         'launch download process
         Dim trd = New Thread(AddressOf doDownloadsThread)
         trd.Start()
-        'doDownloads()
     End Sub
 
     Private cancelDL As Boolean = False
@@ -950,7 +1076,7 @@ Public Class DadCam
         currPrecent = 0
 
         'init vars
-        Dim Client As WebClient
+        Dim Client As WebClient = New WebClient
 
         'download files
         Try
@@ -964,7 +1090,6 @@ Public Class DadCam
                 isDownloading = True
                 currDownloadName = item.SubItems(1).Text
                 'download stuff
-                Client = New WebClient
                 AddHandler Client.DownloadProgressChanged, AddressOf client_ProgressChanged
                 AddHandler Client.DownloadFileCompleted, AddressOf client_DownloadCompleted
                 Client.Credentials = New NetworkCredential(urlLog, urlPas)
@@ -975,6 +1100,12 @@ Public Class DadCam
                     Thread.Sleep(50) : Application.DoEvents()
                 End While
             Next
+
+            'launch vid if only one dl
+            If currDl = 1 Then
+                Process.Start(dlPath & ListVid.SelectedItems.Item(0).SubItems(1).Text)
+            End If
+
         Catch ex As Exception
             If cancelDL = True Then
                 'cancel download
@@ -1063,28 +1194,28 @@ Public Class DadCam
 
     'show selected file in player
     Private Sub ListVid_DoubleClick(sender As System.Object, e As System.EventArgs) Handles ListVid.DoubleClick
-        'display video form
-        'VideoPlayer.Show()
-        Dim wmp As New WMPLib.WindowsMediaPlayer
+
+        'Dim wmp As New WMPLib.WindowsMediaPlayer
         'VideoPlayer.WindowsMediaPlayer
+
         If ListVid.SelectedItems.Item(0).BackColor = Color.LightGreen Then
             'read local
-            wmp.openPlayer(dlPath & ListVid.SelectedItems.Item(0).SubItems(1).Text)
+            'wmp.openPlayer(dlPath & ListVid.SelectedItems.Item(0).SubItems(1).Text)
+            Process.Start(dlPath & ListVid.SelectedItems.Item(0).SubItems(1).Text)
         Else
-            'read online
-            Dim urlVid = urlCam & ListVid.SelectedItems.Item(0).SubItems(4).Text
+            'bonus : read online
+            'showWebAuth(WebCam1, urlPass(urlCam & ListVid.SelectedItems.Item(0).SubItems(4).Text, urlLog, urlPas), urlLog, urlPas)
+            'Process.Start(urlPass(urlCam & ListVid.SelectedItems.Item(0).SubItems(4).Text, urlLog, urlPas))
 
-            'Dim urlVidTab = Split(urlVid, "://")
-            'urlVid = urlVidTab(0) & "://" & urlLog & ":" & urlPas & "@" & urlVidTab(1)
-            'MessageBox.Show(urlVid)
-            '**********************
-            'TODO : ADD CREDENTIALS
-            '**********************
+            For i = 0 To Me.ListVid.Items.Count - 1
+                Me.ListVid.Items(i).Checked = False
+            Next
+            ListVid.SelectedItems.Item(0).Checked = True
 
-            'VideoPlayer.Show()
-            'showWebAuth(VideoPlayer.WebBrowser1, urlVid, urlLog, urlPas)
+            'launch download process
+            Dim trd = New Thread(AddressOf doDownloadsThread)
+            trd.Start()
 
-            wmp.openPlayer(urlVid)
         End If
     End Sub
 

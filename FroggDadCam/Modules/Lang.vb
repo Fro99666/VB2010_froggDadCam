@@ -25,6 +25,8 @@ Module Lang
     Public AppDlExit
     Public AppExitTitle
     Public AppVersion
+    Public AppNewVersion
+    Public AppDLNewVersion
     '*Err
     Public ErrConn
     Public ErrDownload
@@ -38,6 +40,8 @@ Module Lang
     Public msgRestartTitle
     Public msgRestarting
     Public msgRestarted
+    Public msgUpdated
+    Public msgUpdating
     Public msgFormat
     Public msgFormatTitle
     Public msgFormating
@@ -98,6 +102,8 @@ Module Lang
             AppDlExit = xDoc.GetElementsByTagName("AppDlExit")(0).InnerText
             AppExitTitle = xDoc.GetElementsByTagName("AppExitTitle")(0).InnerText
             AppVersion = xDoc.GetElementsByTagName("AppVersion")(0).InnerText
+            AppNewVersion = xDoc.GetElementsByTagName("AppNewVersion")(0).InnerText
+            AppDLNewVersion = xDoc.GetElementsByTagName("AppDLNewVersion")(0).InnerText
             '*Err
             ErrConn = xDoc.GetElementsByTagName("ErrConn")(0).InnerText
             ErrDownloading = xDoc.GetElementsByTagName("ErrDownloading")(0).InnerText
@@ -112,6 +118,8 @@ Module Lang
             msgRestartTitle = xDoc.GetElementsByTagName("msgRestartTitle")(0).InnerText
             msgRestarting = xDoc.GetElementsByTagName("msgRestarting")(0).InnerText
             msgRestarted = xDoc.GetElementsByTagName("msgRestarted")(0).InnerText
+            msgUpdated = xDoc.GetElementsByTagName("msgUpdated")(0).InnerText
+            msgUpdating = xDoc.GetElementsByTagName("msgUpdating")(0).InnerText
             msgFormat = xDoc.GetElementsByTagName("msgFormat")(0).InnerText
             msgFormatTitle = xDoc.GetElementsByTagName("msgFormatTitle")(0).InnerText
             msgFormating = xDoc.GetElementsByTagName("msgFormating")(0).InnerText

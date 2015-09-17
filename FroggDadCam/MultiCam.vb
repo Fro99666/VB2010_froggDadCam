@@ -23,7 +23,7 @@
             Dim urlPas = DadCam.decodeStr(My.Computer.Registry.GetValue("HKEY_CURRENT_USER\Software\" & DadCam.registryKey & "\" & k, "pass", ""), DadCam.encryptPass)
             Dim urlLng = My.Computer.Registry.GetValue("HKEY_CURRENT_USER\Software\" & DadCam.registryKey & "\" & k, "lang", "")
             'check if can log to cam
-            checkCamToDisplay(urlCam & DadCam.urls(urlMod & "_urlMiniCamView"), urlLog, urlPas, urlLng, k)
+            checkCamToDisplay(DadCam.urlPass(urlCam, urlLog, urlPas) & DadCam.urls(urlMod & "_urlMiniCamView"), urlLog, urlPas, urlLng, k)
         Next
     End Sub
 

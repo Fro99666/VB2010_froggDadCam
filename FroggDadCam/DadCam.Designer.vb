@@ -28,6 +28,7 @@ Partial Class DadCam
         Me.MenuBar = New System.Windows.Forms.MenuStrip()
         Me.MenuView = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuViewMini = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MenuViewAll = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuDL = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuMemInfo = New System.Windows.Forms.ToolStripTextBox()
         Me.MenuOption = New System.Windows.Forms.ToolStripMenuItem()
@@ -64,7 +65,6 @@ Partial Class DadCam
         Me.btndown = New System.Windows.Forms.Button()
         Me.btnleft = New System.Windows.Forms.Button()
         Me.btnUp = New System.Windows.Forms.Button()
-        Me.MenuViewAll = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuBar.SuspendLayout()
         Me.CamStatus.SuspendLayout()
         Me.PanelVid.SuspendLayout()
@@ -102,6 +102,12 @@ Partial Class DadCam
         Me.MenuViewMini.Name = "MenuViewMini"
         Me.MenuViewMini.Size = New System.Drawing.Size(178, 23)
         Me.MenuViewMini.Text = "Voir la caméra en taille reduite"
+        '
+        'MenuViewAll
+        '
+        Me.MenuViewAll.Name = "MenuViewAll"
+        Me.MenuViewAll.Size = New System.Drawing.Size(140, 23)
+        Me.MenuViewAll.Text = "Voir toutes les caméras"
         '
         'MenuDL
         '
@@ -233,9 +239,9 @@ Partial Class DadCam
         Me.PanelVid.Controls.Add(Me.BtnVidClose)
         Me.PanelVid.Controls.Add(Me.BtnVidDL)
         Me.PanelVid.Controls.Add(Me.ListVidDate)
-        Me.PanelVid.Location = New System.Drawing.Point(235, 90)
+        Me.PanelVid.Location = New System.Drawing.Point(230, 90)
         Me.PanelVid.Name = "PanelVid"
-        Me.PanelVid.Size = New System.Drawing.Size(530, 395)
+        Me.PanelVid.Size = New System.Drawing.Size(540, 395)
         Me.PanelVid.TabIndex = 5
         Me.PanelVid.Visible = False
         '
@@ -244,7 +250,7 @@ Partial Class DadCam
         Me.btnVidCancel.BackColor = System.Drawing.Color.Red
         Me.btnVidCancel.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnVidCancel.ForeColor = System.Drawing.Color.White
-        Me.btnVidCancel.Location = New System.Drawing.Point(283, 363)
+        Me.btnVidCancel.Location = New System.Drawing.Point(292, 363)
         Me.btnVidCancel.Name = "btnVidCancel"
         Me.btnVidCancel.Size = New System.Drawing.Size(117, 23)
         Me.btnVidCancel.TabIndex = 7
@@ -268,7 +274,7 @@ Partial Class DadCam
         Me.ListVid.FullRowSelect = True
         Me.ListVid.Location = New System.Drawing.Point(191, 25)
         Me.ListVid.Name = "ListVid"
-        Me.ListVid.Size = New System.Drawing.Size(332, 334)
+        Me.ListVid.Size = New System.Drawing.Size(342, 334)
         Me.ListVid.TabIndex = 5
         Me.ListVid.UseCompatibleStateImageBehavior = False
         '
@@ -286,7 +292,7 @@ Partial Class DadCam
         Me.BtnVidClose.BackColor = System.Drawing.Color.Red
         Me.BtnVidClose.Font = New System.Drawing.Font("Verdana", 7.25!, System.Drawing.FontStyle.Bold)
         Me.BtnVidClose.ForeColor = System.Drawing.Color.White
-        Me.BtnVidClose.Location = New System.Drawing.Point(503, 3)
+        Me.BtnVidClose.Location = New System.Drawing.Point(513, 3)
         Me.BtnVidClose.Margin = New System.Windows.Forms.Padding(0)
         Me.BtnVidClose.Name = "BtnVidClose"
         Me.BtnVidClose.Size = New System.Drawing.Size(20, 20)
@@ -299,7 +305,7 @@ Partial Class DadCam
         Me.BtnVidDL.BackColor = System.Drawing.Color.Green
         Me.BtnVidDL.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnVidDL.ForeColor = System.Drawing.Color.White
-        Me.BtnVidDL.Location = New System.Drawing.Point(406, 363)
+        Me.BtnVidDL.Location = New System.Drawing.Point(416, 363)
         Me.BtnVidDL.Name = "BtnVidDL"
         Me.BtnVidDL.Size = New System.Drawing.Size(117, 23)
         Me.BtnVidDL.TabIndex = 2
@@ -381,12 +387,6 @@ Partial Class DadCam
         Me.btnUp.Size = New System.Drawing.Size(40, 40)
         Me.btnUp.TabIndex = 0
         Me.btnUp.UseVisualStyleBackColor = True
-        '
-        'MenuViewAll
-        '
-        Me.MenuViewAll.Name = "MenuViewAll"
-        Me.MenuViewAll.Size = New System.Drawing.Size(140, 23)
-        Me.MenuViewAll.Text = "Voir toutes les caméras"
         '
         'DadCam
         '

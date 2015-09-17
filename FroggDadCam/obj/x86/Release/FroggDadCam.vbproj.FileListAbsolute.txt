@@ -21,11 +21,6 @@ C:\Users\remy\Documents\GitHub\FroggDadCam\FroggDadCam\obj\x86\Release\FroggDadC
 C:\Users\remy\Documents\GitHub\VB2010_froggDadCam\FroggDadCam\bin\Release\FroggDadCam.exe
 C:\Users\remy\Documents\GitHub\VB2010_froggDadCam\FroggDadCam\bin\Release\FroggDadCam.pdb
 C:\Users\remy\Documents\GitHub\VB2010_froggDadCam\FroggDadCam\bin\Release\FroggDadCam.xml
-C:\Users\remy\Documents\GitHub\VB2010_froggDadCam\FroggDadCam\bin\Release\Interop.WMPLib.dll
-C:\Users\remy\Documents\GitHub\VB2010_froggDadCam\FroggDadCam\bin\Release\AxInterop.WMPLib.dll
-C:\Users\remy\Documents\GitHub\VB2010_froggDadCam\FroggDadCam\obj\x86\Release\Interop.WMPLib.dll
-C:\Users\remy\Documents\GitHub\VB2010_froggDadCam\FroggDadCam\obj\x86\Release\AxInterop.WMPLib.dll
-C:\Users\remy\Documents\GitHub\VB2010_froggDadCam\FroggDadCam\obj\x86\Release\FroggDadCam.vbproj.ResolveComReference.cache
 C:\Users\remy\Documents\GitHub\VB2010_froggDadCam\FroggDadCam\obj\x86\Release\DadCam.Configuration.resources
 C:\Users\remy\Documents\GitHub\VB2010_froggDadCam\FroggDadCam\obj\x86\Release\DadCam.DadCam.resources
 C:\Users\remy\Documents\GitHub\VB2010_froggDadCam\FroggDadCam\obj\x86\Release\DadCam.MultiCam.resources

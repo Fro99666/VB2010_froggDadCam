@@ -30,6 +30,8 @@
         <AppDlExit>Etes vous sûre de vouloir quitter l'application alors que vous avez encore des téléchargements en cours ?</AppDlExit>
         <AppExitTitle>Quitter l'application</AppExitTitle>
         <AppVersion>Version</AppVersion>
+        <AppNewVersion>Une nouvelle version est disponible, voulez-vous la télécharger ?</AppNewVersion>
+        <AppDLNewVersion>Téléchargement de la nouvelle version de</AppDLNewVersion>
         <ErrConn>Erreur de connexion</ErrConn>
         <ErrDownloading>Une erreur est survenue lors du téléchargement</ErrDownloading>
         <ErrDownload>Téléchargement Echoué !</ErrDownload>
@@ -41,6 +43,8 @@
         <msgRestartTitle>Gestion de la carte mémoire</msgRestartTitle>
         <msgRestarting>Redémarrage de la caméra en cours, merci de patienter</msgRestarting>
         <msgRestarted>La caméra a redémarré !</msgRestarted>
+        <msgUpdated>a été mis à jour avec succès !</msgUpdated>
+        <msgUpdating>Téléchargement de la nouvelle version, merci de patienter..</msgUpdating>
         <msgFormat>Etes vous sûre de vouloir effacer le contenu de la carte mémoire de la caméra ?</msgFormat>
         <msgFormatTitle>Gestion de la carte mémoire</msgFormatTitle>
         <msgFormating>Formatage de la carte mémoire en cours, merci de patienter</msgFormating>
@@ -63,7 +67,7 @@
         <DadCamTxt>Caméra de surveillance</DadCamTxt>
         <MenuViewTxt>Voir la caméra en direct</MenuViewTxt>
         <MenuViewMiniTxt>Voir la caméra en taille reduite</MenuViewMiniTxt>
-      <MenuViewAllTxt>Voir toutes les caméras</MenuViewAllTxt>
+        <MenuViewAllTxt>Voir toutes les caméras</MenuViewAllTxt>
         <MenuDLTxt>Télécharger les vidéos</MenuDLTxt>
         <MenuOptionTxt>Options</MenuOptionTxt>
         <MenuCamRestartTxt>Redémarrer la caméra</MenuCamRestartTxt>
