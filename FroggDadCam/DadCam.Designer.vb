@@ -65,6 +65,7 @@ Partial Class DadCam
         Me.btndown = New System.Windows.Forms.Button()
         Me.btnleft = New System.Windows.Forms.Button()
         Me.btnUp = New System.Windows.Forms.Button()
+        Me.BtnVidRefresh = New System.Windows.Forms.Button()
         Me.MenuBar.SuspendLayout()
         Me.CamStatus.SuspendLayout()
         Me.PanelVid.SuspendLayout()
@@ -232,6 +233,7 @@ Partial Class DadCam
         'PanelVid
         '
         Me.PanelVid.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.PanelVid.Controls.Add(Me.BtnVidRefresh)
         Me.PanelVid.Controls.Add(Me.btnVidCancel)
         Me.PanelVid.Controls.Add(Me.DLProgress)
         Me.PanelVid.Controls.Add(Me.ListVid)
@@ -281,7 +283,7 @@ Partial Class DadCam
         'PanelVidTitle
         '
         Me.PanelVidTitle.AutoSize = True
-        Me.PanelVidTitle.Location = New System.Drawing.Point(5, 7)
+        Me.PanelVidTitle.Location = New System.Drawing.Point(25, 7)
         Me.PanelVidTitle.Name = "PanelVidTitle"
         Me.PanelVidTitle.Size = New System.Drawing.Size(138, 13)
         Me.PanelVidTitle.TabIndex = 4
@@ -388,6 +390,19 @@ Partial Class DadCam
         Me.btnUp.TabIndex = 0
         Me.btnUp.UseVisualStyleBackColor = True
         '
+        'BtnVidRefresh
+        '
+        Me.BtnVidRefresh.BackColor = System.Drawing.Color.RoyalBlue
+        Me.BtnVidRefresh.Font = New System.Drawing.Font("Verdana", 7.25!, System.Drawing.FontStyle.Bold)
+        Me.BtnVidRefresh.ForeColor = System.Drawing.Color.White
+        Me.BtnVidRefresh.Location = New System.Drawing.Point(4, 3)
+        Me.BtnVidRefresh.Margin = New System.Windows.Forms.Padding(0)
+        Me.BtnVidRefresh.Name = "BtnVidRefresh"
+        Me.BtnVidRefresh.Size = New System.Drawing.Size(20, 20)
+        Me.BtnVidRefresh.TabIndex = 8
+        Me.BtnVidRefresh.Text = "V"
+        Me.BtnVidRefresh.UseVisualStyleBackColor = False
+        '
         'DadCam
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -461,5 +476,6 @@ Partial Class DadCam
     Friend WithEvents btnleft As System.Windows.Forms.Button
     Friend WithEvents btnUp As System.Windows.Forms.Button
     Friend WithEvents MenuViewAll As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents BtnVidRefresh As System.Windows.Forms.Button
 
 End Class

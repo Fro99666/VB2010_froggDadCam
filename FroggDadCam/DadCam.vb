@@ -12,12 +12,9 @@ Imports Microsoft.Win32
 'TODO BONUS
 '==========
 '#####Todo : Add update to menu if cancel update 
-'#####Todo : download is slow [?]
-'#####Todo : read live video on double click
 '#####Todo : design forms
 '#####Todo : other cam constructor
 '#####Todo : put all view in same tab + switch to cam directly from menu [?]
-
 '[?] mean perhaps !
 
 Public Class DadCam
@@ -44,7 +41,7 @@ Public Class DadCam
     Public exePath As String
 
     ' ### SCRIPT INFO ###
-    Private Const version As String = "1.000"
+    Private Const version As String = "1.001"
     Public Const encryptLog As String = "Fr099d4DP4sSC0d3"
     Public Const encryptPass As String = "Fr099d4DL09C0d3"
     Public Const registryKey As String = "FroggDadCam"
@@ -237,6 +234,8 @@ Public Class DadCam
                     While isDownloading = True
                         Thread.Sleep(50) : Application.DoEvents()
                     End While
+                    'set updated flag
+                    setUpdateFlag()
                     're-run the exe
                     Process.Start(downloadTarget)
                     Me.Close()
@@ -254,18 +253,43 @@ Public Class DadCam
 
     'check if start from update file or original exe
     Private Sub checkPath()
-        If Not exePath = Replace(Application.ExecutablePath, ".EXE", ".exe") Then
-            'copy file to application original path & then restart it
-            If System.IO.File.Exists(Application.ExecutablePath) = True Then
-                System.IO.File.Delete(exePath)
-                System.IO.File.Copy(Application.ExecutablePath, exePath)
-                MessageBox.Show(registryKey & " " & Lang.msgUpdated)
-                Process.Start(exePath)
-                Me.Close()
+        'check if is updated
+        If getUpdateFlag() = 1 Then
+            'do update
+            If Not exePath = Replace(Application.ExecutablePath, ".EXE", ".exe") Then
+                'copy file to application original path & then restart it
+                If System.IO.File.Exists(Application.ExecutablePath) = True Then
+                    System.IO.File.Delete(exePath)
+                    System.IO.File.Copy(Application.ExecutablePath, exePath)
+                    MessageBox.Show(registryKey & " " & Lang.msgUpdated)
+                    Process.Start(exePath)
+                    Me.Close()
+                End If
             End If
+            'remove update flag
+            removeUpdateFlag()
+        Else
+            'set current path (if exe has moved)
+            setInstallPath()
         End If
+
     End Sub
 
+    Private Sub setInstallPath()
+        My.Computer.Registry.SetValue("HKEY_CURRENT_USER\Software\" & registryKey, "installpath", Replace(Application.ExecutablePath, ".EXE", ".exe"))
+    End Sub
+
+    Private Sub setUpdateFlag()
+        My.Computer.Registry.SetValue("HKEY_CURRENT_USER\Software\" & registryKey, "updated", "1")
+    End Sub
+
+    Private Sub removeUpdateFlag()
+        My.Computer.Registry.SetValue("HKEY_CURRENT_USER\Software\" & registryKey, "updated", "0")
+    End Sub
+
+    Private Function getUpdateFlag()
+        Return My.Computer.Registry.GetValue("HKEY_CURRENT_USER\Software\" & registryKey, "updated", "0")
+    End Function
 
     'event download progress
     Private Sub update_ProgressChanged(ByVal sender As Object, ByVal e As DownloadProgressChangedEventArgs)
@@ -318,7 +342,7 @@ Public Class DadCam
         My.Computer.Registry.SetValue("HKEY_CURRENT_USER\Software\" & registryKey & "\" & camID, "cam", cam)
         My.Computer.Registry.SetValue("HKEY_CURRENT_USER\Software\" & registryKey & "\" & camID, "path", path)
         My.Computer.Registry.SetValue("HKEY_CURRENT_USER\Software\" & registryKey & "\" & camID, "lang", langage)
-        My.Computer.Registry.SetValue("HKEY_CURRENT_USER\Software\" & registryKey, "installpath", Replace(Application.ExecutablePath, ".EXE", ".exe"))
+        setInstallPath()
     End Sub
 
     'remove config
@@ -696,6 +720,8 @@ Public Class DadCam
     'thread safe format mem
     Private Sub formatMemAction()
         getHtmlBasicAuth(urlCam & urls(currModel & "_urlCamFormat"), True)
+        'hide panel video if opened
+        PanelVid.Visible = False
         MessageBox.Show(Lang.msgFormated)
         If (Me.InvokeRequired) Then
             Me.Invoke(New SetThreadCallback(AddressOf reControl), New Object() {[Text]})
@@ -704,6 +730,8 @@ Public Class DadCam
             showMem()
             reControl()
         End If
+        'reset list
+        resetVidList()
     End Sub
 
     'get memory value in %
@@ -887,6 +915,14 @@ Public Class DadCam
         End If
     End Sub
 
+    'reset list
+    Private Sub resetVidList()
+        'delete list
+        clearVidList()
+        'reload list
+        loadVidMenuList()
+    End Sub
+
     'download menu click
     Private Sub ListVidDate_SelectedIndexChanged(sender As System.Object, e As System.EventArgs) Handles ListVidDate.SelectedIndexChanged
         If stopControl = True Then Exit Sub
@@ -998,6 +1034,11 @@ Public Class DadCam
         PanelVid.Visible = False
     End Sub
 
+    'refresh video list
+    Private Sub BtnVidRefresh_Click(sender As System.Object, e As System.EventArgs) Handles BtnVidRefresh.Click
+        resetVidList()
+    End Sub
+
     'download bin file
     Private Function downloadBinFile(url As String, target As String, Optional log As String = "", Optional pass As String = "")
         Try
@@ -1103,7 +1144,7 @@ Public Class DadCam
 
             'launch vid if only one dl
             If currDl = 1 Then
-                Process.Start(dlPath & ListVid.SelectedItems.Item(0).SubItems(1).Text)
+                Process.Start(dlPath & currDownloadName)
             End If
 
         Catch ex As Exception
