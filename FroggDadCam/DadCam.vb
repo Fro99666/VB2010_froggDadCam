@@ -256,23 +256,21 @@ Public Class DadCam
         'check if is updated
         If getUpdateFlag() = 1 Then
             'do update
-            If Not exePath = Replace(Application.ExecutablePath, ".EXE", ".exe") Then
-                'copy file to application original path & then restart it
-                If System.IO.File.Exists(Application.ExecutablePath) = True Then
-                    System.IO.File.Delete(exePath)
-                    System.IO.File.Copy(Application.ExecutablePath, exePath)
-                    MessageBox.Show(registryKey & " " & Lang.msgUpdated)
-                    Process.Start(exePath)
-                    Me.Close()
-                End If
+            'copy file to application original path & then restart it
+            If System.IO.File.Exists(exePath) = True Then
+                System.IO.File.Delete(exePath)
             End If
+            System.IO.File.Copy(Application.ExecutablePath, exePath)
+            MessageBox.Show(registryKey & " " & Lang.msgUpdated)
             'remove update flag
             removeUpdateFlag()
+            'restart process
+            Process.Start(exePath)
+            Me.Close()
         Else
             'set current path (if exe has moved)
             setInstallPath()
         End If
-
     End Sub
 
     Private Sub setInstallPath()
