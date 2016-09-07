@@ -101,6 +101,13 @@
         End If
     End Sub
 
+    'Live change Form lang
+    Public Sub ConfLang_SelectedIndexChanged() Handles ConfLang.SelectedIndexChanged
+        Me.Hide()
+        Lang.setLang(ConfLang.Text)
+        Me.Show()
+    End Sub
+
     'add model input list
     Public Sub camModelToInpt()
         'clean all content

@@ -75,6 +75,7 @@
         <MenuOfficialTxt>Official camera website</MenuOfficialTxt>
         <MenuConfigTxt>Configuration</MenuConfigTxt>
         <MenuAdvancedConfigTxt>Advanced Configuration</MenuAdvancedConfigTxt>
+        <MenuInfoVersionTxt>Version Change Log</MenuInfoVersionTxt>
         <PanelVidTitle>Available video list</PanelVidTitle>
         <BtnVidDL>Download</BtnVidDL>
         <btnVidCancel>Cancel</btnVidCancel>

@@ -152,6 +152,7 @@ Module Lang
             DadCam.MenuOfficial.Text = xDoc.GetElementsByTagName("MenuOfficialTxt")(0).InnerText
             DadCam.MenuConfig.Text = xDoc.GetElementsByTagName("MenuConfigTxt")(0).InnerText
             DadCam.MenuAdvancedConfig.Text = xDoc.GetElementsByTagName("MenuAdvancedConfigTxt")(0).InnerText
+            DadCam.MenuInfoVersion.Text = xDoc.GetElementsByTagName("MenuInfoVersionTxt")(0).InnerText
             '*form video
             DadCam.PanelVidTitle.Text = xDoc.GetElementsByTagName("PanelVidTitle")(0).InnerText
             DadCam.BtnVidDL.Text = xDoc.GetElementsByTagName("BtnVidDL")(0).InnerText

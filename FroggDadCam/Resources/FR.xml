@@ -74,7 +74,8 @@
         <MenuMemTxt>Effacer la carte mémoire</MenuMemTxt>
         <MenuOfficialTxt>Site Officiel de la caméra</MenuOfficialTxt>
         <MenuConfigTxt>Configuration</MenuConfigTxt>
-        <MenuAdvancedConfigTxt>Configuration Avancée</MenuAdvancedConfigTxt>      
+        <MenuAdvancedConfigTxt>Configuration Avancée</MenuAdvancedConfigTxt>
+        <MenuInfoVersionTxt>Information de la version</MenuInfoVersionTxt>
         <PanelVidTitle>Liste des vidéos disponibles</PanelVidTitle>
         <BtnVidDL>Télécharger</BtnVidDL>
         <btnVidCancel>Annuler</btnVidCancel>

@@ -39,9 +39,11 @@ Public Class DadCam
     Public language As String = "EN"
     'path where exe is started (used for update)
     Public exePath As String
+    'version log text
+    Public versionLog As String
 
     ' ### SCRIPT INFO ###
-    Private Const version As String = "1.001"
+    Private Const version As String = "1.002"
     Public Const encryptLog As String = "Fr099d4DP4sSC0d3"
     Public Const encryptPass As String = "Fr099d4DL09C0d3"
     Public Const registryKey As String = "FroggDadCam"
@@ -59,6 +61,7 @@ Public Class DadCam
     ' ###  FROGG INFOS ###
     Private Const froggVersion As String = "http://version.soft.frogg.fr"
     Private Const froggVersionFile As String = "v"
+    Private Const froggVersionLog As String = "_changelog.txt"
     Private Const froggcv As String = "http://cv.frogg.fr"
     Private Const froggwiki As String = "http://wiki.frogg.fr"
     Private Const froggyoutube As String = "http://youtube.frogg.fr"
@@ -85,7 +88,8 @@ Public Class DadCam
 #Region "MAIN LOAD/UNLOAD"
 
     'Pre Init Script
-    Private Sub DadCam_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
+    Private Sub DadCam_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+
         '####################
         '### AQUILAVIZION ###
         '####################
@@ -206,6 +210,9 @@ Public Class DadCam
     Private Sub checkVersion()
         'get version text file
         Dim liveVersion = getHtmlBasicAuth(froggVersion & "/" & registryKey & "/" & froggVersionFile, False)
+        'set version log text
+        versionLog = getHtmlBasicAuth(froggVersion & "/" & registryKey & "/" & language & froggVersionLog, False)
+
         'if outdated
         If liveVersion > version Then
             If MsgBox(Lang.AppNewVersion & vbCrLf & registryKey & " " & Lang.AppVersion & " " & liveVersion, MsgBoxStyle.YesNo, registryKey) = MsgBoxResult.Yes Then
@@ -239,6 +246,8 @@ Public Class DadCam
                     're-run the exe
                     Process.Start(downloadTarget)
                     Me.Close()
+                    Application.Exit()
+                    End
                 Catch ex As Exception
                     MessageBox.Show("Error : " & ex.Message)
                     Console.Write(ex)
@@ -261,12 +270,15 @@ Public Class DadCam
                 System.IO.File.Delete(exePath)
             End If
             System.IO.File.Copy(Application.ExecutablePath, exePath)
-            MessageBox.Show(registryKey & " " & Lang.msgUpdated)
+            'update successfull message + change log
+            MsgBox(registryKey & " " & Lang.msgUpdated & vbCrLf & vbCrLf & versionLog, MsgBoxStyle.OkOnly, registryKey & " " & version)
             'remove update flag
             removeUpdateFlag()
             'restart process
             Process.Start(exePath)
             Me.Close()
+            Application.Exit()
+            End
         Else
             'set current path (if exe has moved)
             setInstallPath()
@@ -871,14 +883,30 @@ Public Class DadCam
     End Sub
 
     'show advanced configuration
-    Private Sub MenuAdvancedConfig_Click(sender As System.Object, e As System.EventArgs) Handles MenuAdvancedConfig.Click
-        Process.Start(urlCam & urls(currModel & "_urlCamConfig"))
+    Private Sub MenuAdvancedConfig_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuAdvancedConfig.Click
+        Dim urlConfig = urlCam & urls(currModel & "_urlCamConfig")
+
+        If Not currModel = "AQUILAVIZION" Then
+            'Normal case
+            Process.Start(urlConfig)
+        Else
+            'Special case if AQUILAVIZION option must start in IE
+            Dim objIE = CreateObject("InternetExplorer.Application")
+            objIE.Navigate(urlConfig)
+            objIE.Visible = 1
+        End If
+
     End Sub
 
     'show multicam window
     Private Sub MenuViewAll_Click(sender As System.Object, e As System.EventArgs) Handles MenuViewAll.Click
         MultiCam.Show()
         MultiCam.Focus()
+    End Sub
+
+    'version change log
+    Private Sub MenuInfoVersion_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuInfoVersion.Click
+        MsgBox(versionLog, MsgBoxStyle.OkOnly, registryKey & " " & version)
     End Sub
 
 #End Region
@@ -1082,6 +1110,7 @@ Public Class DadCam
     Dim checkedItems As ListView.CheckedListViewItemCollection
     'download selected file
     Private Sub doDownloads()
+
         'get all selected files
         checkedItems = ListVid.CheckedItems
         'get nb file to download
@@ -1123,14 +1152,18 @@ Public Class DadCam
             If (Not System.IO.Directory.Exists(dlPath)) Then
                 System.IO.Directory.CreateDirectory(dlPath)
             End If
+
+            'init download events
+            AddHandler Client.DownloadProgressChanged, AddressOf client_ProgressChanged
+            AddHandler Client.DownloadFileCompleted, AddressOf client_DownloadCompleted
+
             'download each files selected
             For Each item In checkedItems
                 'add download flag
                 isDownloading = True
                 currDownloadName = item.SubItems(1).Text
+
                 'download stuff
-                AddHandler Client.DownloadProgressChanged, AddressOf client_ProgressChanged
-                AddHandler Client.DownloadFileCompleted, AddressOf client_DownloadCompleted
                 Client.Credentials = New NetworkCredential(urlLog, urlPas)
                 Client.Headers.Add("user-agent", HttpUserAgent)
                 Client.DownloadFileAsync(New Uri(urlCam & item.SubItems(4).Text), dlPath & item.SubItems(1).Text)
@@ -1162,6 +1195,7 @@ Public Class DadCam
             BtnVidDL.Enabled = True
             ListVid.Enabled = True
             btnVidCancel.Visible = False
+            isDownloading = False
         End Try
 
         'restore controls
@@ -1307,5 +1341,6 @@ Public Class DadCam
     End Sub
 
 #End Region
+
 
 End Class

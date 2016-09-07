@@ -37,6 +37,7 @@ Partial Class DadCam
         Me.MenuOfficial = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuConfig = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuAdvancedConfig = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MenuInfoVersion = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuFrogg = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuCV = New System.Windows.Forms.ToolStripMenuItem()
         Me.YoutubeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -48,6 +49,7 @@ Partial Class DadCam
         Me.StatusCamTxt = New System.Windows.Forms.ToolStripStatusLabel()
         Me.refreshMem = New System.Windows.Forms.Timer(Me.components)
         Me.PanelVid = New System.Windows.Forms.Panel()
+        Me.BtnVidRefresh = New System.Windows.Forms.Button()
         Me.btnVidCancel = New System.Windows.Forms.Button()
         Me.DLProgress = New System.Windows.Forms.ProgressBar()
         Me.ListVid = New System.Windows.Forms.ListView()
@@ -65,7 +67,6 @@ Partial Class DadCam
         Me.btndown = New System.Windows.Forms.Button()
         Me.btnleft = New System.Windows.Forms.Button()
         Me.btnUp = New System.Windows.Forms.Button()
-        Me.BtnVidRefresh = New System.Windows.Forms.Button()
         Me.MenuBar.SuspendLayout()
         Me.CamStatus.SuspendLayout()
         Me.PanelVid.SuspendLayout()
@@ -129,7 +130,7 @@ Partial Class DadCam
         '
         'MenuOption
         '
-        Me.MenuOption.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuCamRestart, Me.MenuMem, Me.MenuOfficial, Me.MenuConfig, Me.MenuAdvancedConfig})
+        Me.MenuOption.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuCamRestart, Me.MenuMem, Me.MenuOfficial, Me.MenuConfig, Me.MenuAdvancedConfig, Me.MenuInfoVersion})
         Me.MenuOption.Name = "MenuOption"
         Me.MenuOption.Size = New System.Drawing.Size(61, 23)
         Me.MenuOption.Text = "Options"
@@ -137,32 +138,38 @@ Partial Class DadCam
         'MenuCamRestart
         '
         Me.MenuCamRestart.Name = "MenuCamRestart"
-        Me.MenuCamRestart.Size = New System.Drawing.Size(204, 22)
+        Me.MenuCamRestart.Size = New System.Drawing.Size(206, 22)
         Me.MenuCamRestart.Text = "Redémarrer la caméra"
         '
         'MenuMem
         '
         Me.MenuMem.Name = "MenuMem"
-        Me.MenuMem.Size = New System.Drawing.Size(204, 22)
+        Me.MenuMem.Size = New System.Drawing.Size(206, 22)
         Me.MenuMem.Text = "Effacer la carte mémoire"
         '
         'MenuOfficial
         '
         Me.MenuOfficial.Name = "MenuOfficial"
-        Me.MenuOfficial.Size = New System.Drawing.Size(204, 22)
+        Me.MenuOfficial.Size = New System.Drawing.Size(206, 22)
         Me.MenuOfficial.Text = "Site Officiel de la caméra"
         '
         'MenuConfig
         '
         Me.MenuConfig.Name = "MenuConfig"
-        Me.MenuConfig.Size = New System.Drawing.Size(204, 22)
+        Me.MenuConfig.Size = New System.Drawing.Size(206, 22)
         Me.MenuConfig.Text = "Configuration"
         '
         'MenuAdvancedConfig
         '
         Me.MenuAdvancedConfig.Name = "MenuAdvancedConfig"
-        Me.MenuAdvancedConfig.Size = New System.Drawing.Size(204, 22)
+        Me.MenuAdvancedConfig.Size = New System.Drawing.Size(206, 22)
         Me.MenuAdvancedConfig.Text = "Configuration avancée"
+        '
+        'MenuInfoVersion
+        '
+        Me.MenuInfoVersion.Name = "MenuInfoVersion"
+        Me.MenuInfoVersion.Size = New System.Drawing.Size(206, 22)
+        Me.MenuInfoVersion.Text = "Information de la version"
         '
         'MenuFrogg
         '
@@ -246,6 +253,19 @@ Partial Class DadCam
         Me.PanelVid.Size = New System.Drawing.Size(540, 395)
         Me.PanelVid.TabIndex = 5
         Me.PanelVid.Visible = False
+        '
+        'BtnVidRefresh
+        '
+        Me.BtnVidRefresh.BackColor = System.Drawing.Color.RoyalBlue
+        Me.BtnVidRefresh.Font = New System.Drawing.Font("Verdana", 7.25!, System.Drawing.FontStyle.Bold)
+        Me.BtnVidRefresh.ForeColor = System.Drawing.Color.White
+        Me.BtnVidRefresh.Location = New System.Drawing.Point(4, 3)
+        Me.BtnVidRefresh.Margin = New System.Windows.Forms.Padding(0)
+        Me.BtnVidRefresh.Name = "BtnVidRefresh"
+        Me.BtnVidRefresh.Size = New System.Drawing.Size(20, 20)
+        Me.BtnVidRefresh.TabIndex = 8
+        Me.BtnVidRefresh.Text = "V"
+        Me.BtnVidRefresh.UseVisualStyleBackColor = False
         '
         'btnVidCancel
         '
@@ -390,19 +410,6 @@ Partial Class DadCam
         Me.btnUp.TabIndex = 0
         Me.btnUp.UseVisualStyleBackColor = True
         '
-        'BtnVidRefresh
-        '
-        Me.BtnVidRefresh.BackColor = System.Drawing.Color.RoyalBlue
-        Me.BtnVidRefresh.Font = New System.Drawing.Font("Verdana", 7.25!, System.Drawing.FontStyle.Bold)
-        Me.BtnVidRefresh.ForeColor = System.Drawing.Color.White
-        Me.BtnVidRefresh.Location = New System.Drawing.Point(4, 3)
-        Me.BtnVidRefresh.Margin = New System.Windows.Forms.Padding(0)
-        Me.BtnVidRefresh.Name = "BtnVidRefresh"
-        Me.BtnVidRefresh.Size = New System.Drawing.Size(20, 20)
-        Me.BtnVidRefresh.TabIndex = 8
-        Me.BtnVidRefresh.Text = "V"
-        Me.BtnVidRefresh.UseVisualStyleBackColor = False
-        '
         'DadCam
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -419,7 +426,6 @@ Partial Class DadCam
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MainMenuStrip = Me.MenuBar
         Me.MaximizeBox = False
-        Me.MinimizeBox = False
         Me.Name = "DadCam"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Caméra Surveillance"
@@ -477,5 +483,6 @@ Partial Class DadCam
     Friend WithEvents btnUp As System.Windows.Forms.Button
     Friend WithEvents MenuViewAll As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents BtnVidRefresh As System.Windows.Forms.Button
+    Friend WithEvents MenuInfoVersion As System.Windows.Forms.ToolStripMenuItem
 
 End Class
