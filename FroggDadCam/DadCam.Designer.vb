@@ -259,12 +259,12 @@ Partial Class DadCam
         Me.BtnVidRefresh.BackColor = System.Drawing.Color.RoyalBlue
         Me.BtnVidRefresh.Font = New System.Drawing.Font("Verdana", 7.25!, System.Drawing.FontStyle.Bold)
         Me.BtnVidRefresh.ForeColor = System.Drawing.Color.White
+        Me.BtnVidRefresh.Image = Global.DadCam.My.Resources.Resources.refresh
         Me.BtnVidRefresh.Location = New System.Drawing.Point(4, 3)
         Me.BtnVidRefresh.Margin = New System.Windows.Forms.Padding(0)
         Me.BtnVidRefresh.Name = "BtnVidRefresh"
         Me.BtnVidRefresh.Size = New System.Drawing.Size(20, 20)
         Me.BtnVidRefresh.TabIndex = 8
-        Me.BtnVidRefresh.Text = "V"
         Me.BtnVidRefresh.UseVisualStyleBackColor = False
         '
         'btnVidCancel

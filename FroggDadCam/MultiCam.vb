@@ -5,12 +5,19 @@
     'close main form if cancel config when no informations exit
     Private Sub MultiCam_Closing(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles MyBase.Closing
         'check if cam is not loaded and quit config, quit software / else reshow main form
-        If DadCam.Visible = False And Configuration.Visible = False Then Application.Exit() Else DadCam.Focus()
+        If DadCam.Visible = False And Configuration.Visible = False Then
+            DadCam.checkDownloadingOnexit(e)
+        Else
+            'set focus back
+            DadCam.WindowState = FormWindowState.Normal
+            DadCam.Focus()
+        End If
     End Sub
 
     'form loading
     Private Sub MultiCam_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
         renderCams()
+        Me.Text = Lang.AppMultiView & " - " & Lang.AppVersion & " " & DadCam.version
     End Sub
 
     Public Sub renderCams()
@@ -99,6 +106,9 @@
         DadCam.getConfig()
         DadCam.loadCam(False)
         DadCam.getMem()
+        'set focus back
+        DadCam.WindowState = FormWindowState.Normal
+        DadCam.Focus()
     End Sub
 
 End Class

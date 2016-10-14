@@ -27,6 +27,7 @@ Module Lang
     Public AppVersion
     Public AppNewVersion
     Public AppDLNewVersion
+    Public AppMultiView
     '*Err
     Public ErrConn
     Public ErrDownload
@@ -50,6 +51,7 @@ Module Lang
     Public msgVideoMenuLoad
     Public msgDownloadStart
     Public msgDownloadCancel
+    Public msgDownloadCanceled
     Public msgDownloadCancelTitle
     Public msgFile
     Public msgOn
@@ -104,6 +106,7 @@ Module Lang
             AppVersion = xDoc.GetElementsByTagName("AppVersion")(0).InnerText
             AppNewVersion = xDoc.GetElementsByTagName("AppNewVersion")(0).InnerText
             AppDLNewVersion = xDoc.GetElementsByTagName("AppDLNewVersion")(0).InnerText
+            AppMultiView = xDoc.GetElementsByTagName("AppMultiView")(0).InnerText
             '*Err
             ErrConn = xDoc.GetElementsByTagName("ErrConn")(0).InnerText
             ErrDownloading = xDoc.GetElementsByTagName("ErrDownloading")(0).InnerText
@@ -128,6 +131,7 @@ Module Lang
             msgVideoMenuLoad = xDoc.GetElementsByTagName("msgVideoMenuLoad")(0).InnerText
             msgDownloadStart = xDoc.GetElementsByTagName("msgDownloadStart")(0).InnerText
             msgDownloadCancel = xDoc.GetElementsByTagName("msgDownloadCancel")(0).InnerText
+            msgDownloadCanceled = xDoc.GetElementsByTagName("msgDownloadCanceled")(0).InnerText
             msgDownloadCancelTitle = xDoc.GetElementsByTagName("msgDownloadCancelTitle")(0).InnerText
             msgFile = xDoc.GetElementsByTagName("msgFile")(0).InnerText
             msgOn = xDoc.GetElementsByTagName("msgOn")(0).InnerText

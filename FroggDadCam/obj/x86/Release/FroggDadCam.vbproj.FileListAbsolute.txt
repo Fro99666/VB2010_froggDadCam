@@ -42,3 +42,4 @@ D:\work\GitHub\VB2010_froggDadCam\FroggDadCam\obj\x86\Release\DadCam.MultiCam.re
 D:\work\GitHub\VB2010_froggDadCam\FroggDadCam\obj\x86\Release\DadCam.Frogg.resources
 D:\work\GitHub\VB2010_froggDadCam\FroggDadCam\obj\x86\Release\DadCam.Resources.resources
 D:\work\GitHub\VB2010_froggDadCam\FroggDadCam\obj\x86\Release\FroggDadCam.vbproj.GenerateResource.Cache
+D:\work\GitHub\VB2010_froggDadCam\FroggDadCam\obj\x86\Release\DadCam.VersionLog.resources

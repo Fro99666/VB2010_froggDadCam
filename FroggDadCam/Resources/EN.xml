@@ -31,7 +31,8 @@
         <AppExitTitle>Exit application</AppExitTitle>
         <AppVersion>Version</AppVersion>
         <AppNewVersion>A new version is available, do you wish to dowload it ?</AppNewVersion>
-        <AppDLNewVersion>Downloading the new version of</AppDLNewVersion>      
+        <AppDLNewVersion>Downloading the new version of</AppDLNewVersion>
+        <AppMultiView>Multi cam view</AppMultiView>
         <ErrConn>Connexion error</ErrConn>
         <ErrDownloading>An error occurred while downloading</ErrDownloading>
         <ErrDownload>Download error !</ErrDownload>
@@ -54,6 +55,7 @@
         <msgDownloadStart>Starting downloads</msgDownloadStart>
         <msgDownloadCancel>Cancel downloads</msgDownloadCancel>
         <msgDownloadCancelTitle>You are going to cancel all pending downloads, do you wish to continue ?</msgDownloadCancelTitle>
+        <msgDownloadCanceled>Downloads canceled</msgDownloadCanceled>
         <msgFile>file</msgFile>
         <msgOn>on</msgOn>
         <msgCurrentFile>current file</msgCurrentFile>

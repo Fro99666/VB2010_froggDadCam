@@ -64,6 +64,10 @@ FroggDadCam
 	<summary>
   Recherche une ressource localisée de type System.Drawing.Bitmap.
 </summary>
+</member><member name="P:DadCam.My.Resources.Resources.refresh">
+	<summary>
+  Recherche une ressource localisée de type System.Drawing.Bitmap.
+</summary>
 </member><member name="P:DadCam.My.Resources.Resources.u">
 	<summary>
   Recherche une ressource localisée de type System.Drawing.Bitmap.

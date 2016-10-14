@@ -5,17 +5,17 @@ Imports System.Text.RegularExpressions
 Imports System.Threading
 Imports Microsoft.Win32
 
-'TODO
-'====
-'1] voir l'annulation des downloads sous windows 8
 
-'TODO BONUS
+'TODO
+'=====
+' todo : fix cancel thread execption in log message
+'POSSIBLE TODO BONUS
 '==========
-'#####Todo : Add update to menu if cancel update 
-'#####Todo : design forms
-'#####Todo : other cam constructor
-'#####Todo : put all view in same tab + switch to cam directly from menu [?]
-'[?] mean perhaps !
+'# BONUS : Add update to menu if cancel update 
+'# BONUS : design forms
+'# BONUS : other cam constructor
+'# BONUS : put all view in same tab + switch to cam directly from menu
+
 
 Public Class DadCam
 
@@ -40,10 +40,10 @@ Public Class DadCam
     'path where exe is started (used for update)
     Public exePath As String
     'version log text
-    Public versionLog As String
+    Public versionLogMsg As String
 
     ' ### SCRIPT INFO ###
-    Private Const version As String = "1.002"
+    Public Const version As String = "1.003"
     Public Const encryptLog As String = "Fr099d4DP4sSC0d3"
     Public Const encryptPass As String = "Fr099d4DL09C0d3"
     Public Const registryKey As String = "FroggDadCam"
@@ -59,7 +59,7 @@ Public Class DadCam
     Public camModel = New ArrayList()
 
     ' ###  FROGG INFOS ###
-    Private Const froggVersion As String = "http://version.soft.frogg.fr"
+    Private Const froggVersion As String = "https://version.soft.frogg.fr"
     Private Const froggVersionFile As String = "v"
     Private Const froggVersionLog As String = "_changelog.txt"
     Private Const froggcv As String = "http://cv.frogg.fr"
@@ -132,16 +132,33 @@ Public Class DadCam
         End If
 
         'check if there still download pending
+        checkDownloadingOnexit(e)
+
+    End Sub
+
+    'check if there still download pending
+    Public Sub checkDownloadingOnexit(ByVal e)
         If isDownloading = True Then
             If Not MsgBox(Lang.AppDlExit, MsgBoxStyle.YesNo, Lang.AppExitTitle) = MsgBoxResult.Yes Then
+                'cancel exit
                 e.Cancel = True
+            Else
+                'cancel downloads
+                cancelDL = True
+                'exit application
+                Me.Close()
+                Application.Exit()
             End If
+        Else
+            'exit application
+            Me.Close()
+            Application.Exit()
         End If
     End Sub
 
     'start cam display
     Public isCamLoaded = False
-    Public Sub loadCam(multi As Boolean)
+    Public Sub loadCam(ByVal multi As Boolean)
 
         'refresh > hide main form
         MyBase.Hide()
@@ -167,13 +184,13 @@ Public Class DadCam
         Application.DoEvents()
 
         'hide multi view if single camera configurated
-        If camTot > 1 Then MenuViewAll.Visible = True Else MenuViewAll.Visible = False
+        If multi Then MenuViewAll.Visible = True Else MenuViewAll.Visible = False
 
         'set cache credentials
         setCacheCredentials()
 
-        'test connexion
-        If Not testBasicAuth(urlCam, True) Then
+        'test connexion but continue if more than 1 cam configured
+        If Not multi And Not testBasicAuth(urlCam, True) Then
             MessageBox.Show(ConfConnErr)
             showConfig()
             Exit Sub
@@ -208,10 +225,18 @@ Public Class DadCam
 
     'check if version is uptodate, else download new version
     Private Sub checkVersion()
+
         'get version text file
-        Dim liveVersion = getHtmlBasicAuth(froggVersion & "/" & registryKey & "/" & froggVersionFile, False)
+        Dim liveVersion = getHttpsFileContent(froggVersion & "/" & registryKey & "/" & froggVersionFile)
+        'get version text file
+        versionLogMsg = getHttpsFileContent(froggVersion & "/" & registryKey & "/" & language & froggVersionLog)
+
+
+        '===> this doesn't support https ?
+        'get version text file
+        'Dim liveVersion = getHtmlBasicAuth(froggVersion & "/" & registryKey & "/" & froggVersionFile, False)
         'set version log text
-        versionLog = getHtmlBasicAuth(froggVersion & "/" & registryKey & "/" & language & froggVersionLog, False)
+        'versionLogMsg = getHtmlBasicAuth(froggVersion & "/" & registryKey & "/" & language & froggVersionLog, False)
 
         'if outdated
         If liveVersion > version Then
@@ -271,7 +296,7 @@ Public Class DadCam
             End If
             System.IO.File.Copy(Application.ExecutablePath, exePath)
             'update successfull message + change log
-            MsgBox(registryKey & " " & Lang.msgUpdated & vbCrLf & vbCrLf & versionLog, MsgBoxStyle.OkOnly, registryKey & " " & version)
+            showVersionLog(True)
             'remove update flag
             removeUpdateFlag()
             'restart process
@@ -318,7 +343,7 @@ Public Class DadCam
 #Region "CONFIG"
 
     'set config
-    Public Sub setConfig(model As String, cam As String, log As String, pass As String, path As String, langage As String)
+    Public Sub setConfig(ByVal model As String, ByVal cam As String, ByVal log As String, ByVal pass As String, ByVal path As String, ByVal langage As String)
         'save conf
         saveConfig(model, cam, log, pass, path, langage)
         'set vars
@@ -343,7 +368,7 @@ Public Class DadCam
     End Sub
 
     'save config
-    Private Sub saveConfig(model As String, cam As String, log As String, pass As String, path As String, langage As String)
+    Private Sub saveConfig(ByVal model As String, ByVal cam As String, ByVal log As String, ByVal pass As String, ByVal path As String, ByVal langage As String)
         My.Computer.Registry.CurrentUser.CreateSubKey("Software").CreateSubKey(registryKey).CreateSubKey(camID)
         My.Computer.Registry.SetValue("HKEY_CURRENT_USER\Software\" & registryKey, "camTot", camTot)
         My.Computer.Registry.SetValue("HKEY_CURRENT_USER\Software\" & registryKey & "\" & camID, "model", model)
@@ -356,7 +381,7 @@ Public Class DadCam
     End Sub
 
     'remove config
-    Public Sub removeConfig(ID)
+    Public Sub removeConfig(ByVal ID)
         Dim regKey As Microsoft.Win32.RegistryKey
         regKey = Registry.CurrentUser.OpenSubKey("Software", True).OpenSubKey(registryKey, True)
         'delete selected id 
@@ -404,14 +429,14 @@ Public Class DadCam
     End Sub
 
     'encode string
-    Private Function encodeStr(str As String, crypto As String)
+    Private Function encodeStr(ByVal str As String, ByVal crypto As String)
         If str = "" Then Return ""
         Dim wrapper As New Encrypt(crypto)
         Return wrapper.EncryptData(str)
     End Function
 
     'decode string
-    Public Function decodeStr(str As String, crypto As String)
+    Public Function decodeStr(ByVal str As String, ByVal crypto As String)
         If str = "" Then Return ""
         Dim wrapper As New Encrypt(crypto)
         Return wrapper.DecryptData(str)
@@ -428,7 +453,7 @@ Public Class DadCam
     End Sub
 
     'get html response with http basic auth
-    Public Function testBasicAuth(url As String, useCache As Boolean, Optional log As String = "", Optional pass As String = "") As Boolean
+    Public Function testBasicAuth(ByVal url As String, ByVal useCache As Boolean, Optional ByVal log As String = "", Optional ByVal pass As String = "") As Boolean
         Dim loHttp As HttpWebRequest
         Dim loWebResponse As HttpWebResponse
         Try
@@ -449,7 +474,7 @@ Public Class DadCam
     End Function
 
     'get html response with http basic auth
-    Private Function getHtmlBasicAuth(url As String, useCache As Boolean, Optional log As String = "", Optional pass As String = "") As String
+    Private Function getHtmlBasicAuth(ByVal url As String, ByVal useCache As Boolean, Optional ByVal log As String = "", Optional ByVal pass As String = "") As String
         Dim lcHtml = ""
         Dim loHttp As HttpWebRequest
         Dim loWebResponse As HttpWebResponse
@@ -478,7 +503,7 @@ Public Class DadCam
     End Function
 
     'get Binary response with http basic auth
-    Public Function getBinBasicAuth(url As String, Optional log As String = "", Optional pass As String = "") As Byte()
+    Public Function getBinBasicAuth(ByVal url As String, Optional ByVal log As String = "", Optional ByVal pass As String = "") As Byte()
         Dim loHttp As HttpWebRequest
         Dim SourceStream As System.IO.Stream
         Dim loWebResponse As HttpWebResponse
@@ -576,10 +601,21 @@ Public Class DadCam
         End If
     End Function
 
+    'get file content throught HTTPS
+    Private Function getHttpsFileContent(ByVal URI As String)
+        Dim HttpWReq As System.Net.HttpWebRequest = CType(HttpWebRequest.Create(URI), HttpWebRequest)
+        'oRequest.Credentials = New System.Net.NetworkCredential("name", "pwd")
+        HttpWReq.UserAgent = HttpUserAgent
+        Dim HttpWResp As HttpWebResponse = HttpWReq.GetResponse()
+        Dim ReceiveStream As Stream = HttpWResp.GetResponseStream()
+        Dim reader = New StreamReader(ReceiveStream, Encoding.UTF8)
+        Return reader.ReadToEnd()
+    End Function
+
     'fix to add cookie
     Public Declare Function InternetSetCookie Lib "wininet.dll" Alias "InternetSetCookieA" (ByVal lpszUrlName As String, ByVal lpszCookieName As String, ByVal lpszCookieData As String) As Boolean
     'show a web page trough auth in browser
-    Public Sub showWebAuth(brower As WebBrowser, url As String, user As String, pass As String, Optional cookieName As String = "", Optional cookieValue As String = "")
+    Public Sub showWebAuth(ByVal brower As WebBrowser, ByVal url As String, ByVal user As String, ByVal pass As String, Optional ByVal cookieName As String = "", Optional ByVal cookieValue As String = "")
         brower.ScriptErrorsSuppressed = True
         If Not cookieName = "" Then InternetSetCookie(url, cookieName, cookieValue)
         brower.Navigate(url, "", Nothing, "Authorization: Basic " & System.Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(user & ":" & pass)))
@@ -627,7 +663,7 @@ Public Class DadCam
         showWebAuth(WebCam1, urlPass(urlCam, urlLog, urlPas) & urls(currModel & "_urlMiniCamView"), urlLog, urlPas, "language", getCamLang(language))
     End Sub
 
-    Public Function getCamLang(userLang As String)
+    Public Function getCamLang(ByVal userLang As String)
         Select Case userLang
             Case "FR"
                 Return "french"
@@ -723,7 +759,7 @@ Public Class DadCam
     'show confimr message after format
     'Private Sub formated(ByVal sender As Object, ByVal e As WebBrowserDocumentCompletedEventArgs)
     '    RemoveHandler WebHidden.DocumentCompleted, AddressOf formated
-    '    MessageBox.Show("La carte mémoire à été formatée avec succès !")
+    '    MessageBox.Show("La carte mémoire a été formatée avec succès !")
     '    reControl()
     'End Sub
 
@@ -774,19 +810,19 @@ Public Class DadCam
 
 #Region "CAM MOVE"
     'click up
-    Private Sub btnUp_Click(sender As System.Object, e As System.EventArgs) Handles btnUp.Click
+    Private Sub btnUp_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnUp.Click
         getHtmlBasicAuth(urlCam & urls(currModel & "_urlCamMoveUp"), True)
     End Sub
     'click left
-    Private Sub btnleft_Click(sender As System.Object, e As System.EventArgs) Handles btnleft.Click
+    Private Sub btnleft_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnleft.Click
         getHtmlBasicAuth(urlCam & urls(currModel & "_urlCamMoveLe"), True)
     End Sub
     'click right
-    Private Sub btnright_Click(sender As System.Object, e As System.EventArgs) Handles btnright.Click
+    Private Sub btnright_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnright.Click
         getHtmlBasicAuth(urlCam & urls(currModel & "_urlCamMoveRi"), True)
     End Sub
     'click down
-    Private Sub btndown_Click(sender As System.Object, e As System.EventArgs) Handles btndown.Click
+    Private Sub btndown_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btndown.Click
         getHtmlBasicAuth(urlCam & urls(currModel & "_urlCamMoveDw"), True)
     End Sub
 #End Region
@@ -795,7 +831,7 @@ Public Class DadCam
 #Region "MENU FUNC"
 
     'stop menu actions
-    Private Sub unControl(txt As String)
+    Private Sub unControl(ByVal txt As String)
         stopControl = True
         currStatusT = StatusCamTxt.Text
         StatusCamTxt.Text = txt
@@ -835,37 +871,37 @@ Public Class DadCam
 #Region "MENU ACTION"
 
     'click on cam menu
-    Private Sub MenuView_Click(sender As System.Object, e As System.EventArgs) Handles MenuView.Click
+    Private Sub MenuView_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuView.Click
         If stopControl = True Then Exit Sub
         showCam()
     End Sub
 
     'click on mini cam
-    Private Sub MenuViewMini_Click(sender As System.Object, e As System.EventArgs) Handles MenuViewMini.Click
+    Private Sub MenuViewMini_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuViewMini.Click
         If stopControl = True Then Exit Sub
         showMiniCam()
     End Sub
 
     'click on mem menu
-    Private Sub MenuMem_Click(sender As System.Object, e As System.EventArgs) Handles MenuMem.Click
+    Private Sub MenuMem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuMem.Click
         If stopControl = True Then Exit Sub
         formatMem()
     End Sub
 
     'refresh memory value
-    Private Sub refreshMem_Tick(sender As System.Object, e As System.EventArgs) Handles refreshMem.Tick
+    Private Sub refreshMem_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles refreshMem.Tick
         If stopControl = True Or isCamLoaded = False Then Exit Sub
         showMem()
     End Sub
 
     'restart cam
-    Private Sub MenuCamRestart_Click(sender As System.Object, e As System.EventArgs) Handles MenuCamRestart.Click
+    Private Sub MenuCamRestart_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuCamRestart.Click
         If stopControl = True Then Exit Sub
         restartCam()
     End Sub
 
     'show video list
-    Private Sub MenuDL_Click(sender As System.Object, e As System.EventArgs) Handles MenuDL.Click
+    Private Sub MenuDL_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuDL.Click
         If isDownloading = False And stopControl = True Then Exit Sub
         PanelVid.Location = New Point(235, 90)
         PanelVid.Visible = True
@@ -873,12 +909,12 @@ Public Class DadCam
     End Sub
 
     'show config
-    Private Sub MenuConfig_Click(sender As System.Object, e As System.EventArgs) Handles MenuConfig.Click
+    Private Sub MenuConfig_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuConfig.Click
         showConfig()
     End Sub
 
     'official web site
-    Private Sub MenuOfficial_Click(sender As System.Object, e As System.EventArgs) Handles MenuOfficial.Click
+    Private Sub MenuOfficial_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuOfficial.Click
         Process.Start(urls(currModel & "_urlCamOfficial"))
     End Sub
 
@@ -891,22 +927,38 @@ Public Class DadCam
             Process.Start(urlConfig)
         Else
             'Special case if AQUILAVIZION option must start in IE
-            Dim objIE = CreateObject("InternetExplorer.Application")
-            objIE.Navigate(urlConfig)
-            objIE.Visible = 1
+            'Dim objIE = CreateObject("InternetExplorer.Application")
+            'objIE.Navigate(urlConfig)
+            'objIE.Visible = 1
+            'TO TEST ON WINDOWS 8
+            Process.Start("iexplore.exe", urlConfig)
         End If
 
     End Sub
 
     'show multicam window
-    Private Sub MenuViewAll_Click(sender As System.Object, e As System.EventArgs) Handles MenuViewAll.Click
+    Private Sub MenuViewAll_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuViewAll.Click
         MultiCam.Show()
         MultiCam.Focus()
     End Sub
 
     'version change log
     Private Sub MenuInfoVersion_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuInfoVersion.Click
-        MsgBox(versionLog, MsgBoxStyle.OkOnly, registryKey & " " & version)
+        showVersionLog(False)
+    End Sub
+
+    'show version change log
+    Private Sub showVersionLog(ByVal updated As Boolean)
+        VersionLog.VersionLogText.Text = versionLogMsg
+        If updated Then
+            VersionLog.Text = registryKey & " " & Lang.msgUpdated & " " & version
+        Else
+            VersionLog.Text = registryKey & " " & version
+        End If
+        VersionLog.Show()
+        'set focus back
+        VersionLog.WindowState = FormWindowState.Normal
+        VersionLog.Focus()
     End Sub
 
 #End Region
@@ -950,20 +1002,23 @@ Public Class DadCam
     End Sub
 
     'download menu click
-    Private Sub ListVidDate_SelectedIndexChanged(sender As System.Object, e As System.EventArgs) Handles ListVidDate.SelectedIndexChanged
+    Private Sub ListVidDate_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ListVidDate.SelectedIndexChanged
         If stopControl = True Then Exit Sub
         If Not ListVidDate.SelectedItem = Nothing Then loadVidList(ListVidDate.SelectedItem.ToString())
     End Sub
 
     'load video list
-    Private Sub loadVidList(dateVid As String)
+    Private Sub loadVidList(ByVal dateVid As String)
+        'reset current video selection state
+        fullCheckedVid = False
+        'set current state tooltip
         unControl("... " & Lang.msgVideoMenuLoad & " ...")
         'clean old result
         ListVid.Clear()
         'set list of video display type (columns)
         ListVid.View = View.Details
         ListVid.Columns.Clear()
-        ListVid.Columns.Add("", 20, HorizontalAlignment.Center)
+        ListVid.Columns.Add("v", 20, HorizontalAlignment.Center)
         ListVid.Columns.Add(Lang.listVidName, 160, HorizontalAlignment.Left)
         ListVid.Columns.Add(Lang.listVidDate, 105, HorizontalAlignment.Center)
         ListVid.Columns.Add(Lang.listVidSize, 40, HorizontalAlignment.Center)
@@ -1006,15 +1061,15 @@ Public Class DadCam
                     End If
                 End If
             Next
-            'restore control
-            reControl()
         Next
+        'restore control
+        reControl()
     End Sub
 
     'add colum sort event
     Private lvwColumnSorter As ListViewColumnSorter
     Private fullCheckedVid As Boolean = False
-    Private Sub ListVid_ColumnClick(sender As System.Object, e As ColumnClickEventArgs) Handles ListVid.ColumnClick
+    Private Sub ListVid_ColumnClick(ByVal sender As System.Object, ByVal e As ColumnClickEventArgs) Handles ListVid.ColumnClick
 
         'case click first column 
         Dim MousePosition = Me.ListVid.PointToClient(Control.MousePosition)
@@ -1056,17 +1111,17 @@ Public Class DadCam
     End Sub
 
     'close video list
-    Private Sub BtnVidClose_Click(sender As System.Object, e As System.EventArgs) Handles BtnVidClose.Click
+    Private Sub BtnVidClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnVidClose.Click
         PanelVid.Visible = False
     End Sub
 
     'refresh video list
-    Private Sub BtnVidRefresh_Click(sender As System.Object, e As System.EventArgs) Handles BtnVidRefresh.Click
+    Private Sub BtnVidRefresh_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnVidRefresh.Click
         resetVidList()
     End Sub
 
     'download bin file
-    Private Function downloadBinFile(url As String, target As String, Optional log As String = "", Optional pass As String = "")
+    Private Function downloadBinFile(ByVal url As String, ByVal target As String, Optional ByVal log As String = "", Optional ByVal pass As String = "")
         Try
             Dim binFile = getBinBasicAuth(url, log, pass)
             Dim savedfile As FileStream = File.OpenWrite(target)
@@ -1081,18 +1136,22 @@ Public Class DadCam
 
     'click download file button
     Private trd As Thread
-    Private Sub BtnVidDL_Click(sender As System.Object, e As System.EventArgs) Handles BtnVidDL.Click
+    Private Sub BtnVidDL_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnVidDL.Click
         If stopControl = True Then Exit Sub
         'launch download process
-        Dim trd = New Thread(AddressOf doDownloadsThread)
-        trd.Start()
+        Try
+            trd = New Thread(AddressOf doDownloadsThread)
+            trd.Start()
+        Catch ex As Exception
+            'canceled by user (maybe :P)
+        End Try
     End Sub
 
+    'cancel download
     Private cancelDL As Boolean = False
-    Private Sub btnVidCancel_Click(sender As System.Object, e As System.EventArgs) Handles btnVidCancel.Click
+    Private Sub btnVidCancel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnVidCancel.Click
         If MsgBox(Lang.msgDownloadCancelTitle, MsgBoxStyle.YesNo, Lang.msgDownloadCancel) = MsgBoxResult.Yes Then
             cancelDL = True
-            trd.Abort()
         End If
     End Sub
 
@@ -1123,8 +1182,8 @@ Public Class DadCam
         ListVid.Enabled = False
         BtnVidDL.Enabled = False
         btnVidCancel.Visible = True
-        cancelDL = False
 
+        oldTxt = StatusCamTxt.Text
         unControl(Lang.msgDownloadStart)
 
         'init all download progress bar infos
@@ -1140,8 +1199,8 @@ Public Class DadCam
         'reinit
         currDl = 0
         maxDl = nbDl
-        oldTxt = StatusCamTxt.Text
         currPrecent = 0
+        cancelDL = False
 
         'init vars
         Dim Client As WebClient = New WebClient
@@ -1169,8 +1228,19 @@ Public Class DadCam
                 Client.DownloadFileAsync(New Uri(urlCam & item.SubItems(4).Text), dlPath & item.SubItems(1).Text)
                 'wait till next download
                 While isDownloading = True
-                    Thread.Sleep(50) : Application.DoEvents()
+                    If cancelDL = False Then
+                        Thread.Sleep(50) : Application.DoEvents()
+                    Else
+                        cancelDownload(Client, trd)
+                        Exit While
+                    End If
                 End While
+
+                'cancel download
+                'If cancelDL = True Then
+                'cancelDownload(Client, trd)
+                'End If
+
             Next
 
             'launch vid if only one dl
@@ -1179,27 +1249,48 @@ Public Class DadCam
             End If
 
         Catch ex As Exception
-            If cancelDL = True Then
-                'cancel download
-                Client.CancelAsync()
-                Client.Dispose()
-                Client = Nothing
-            Else
-                'error message
-                MessageBox.Show(Lang.ErrDownloading & " : " & ex.Message)
-            End If
-            DLProgress.Visible = False
-            DllToolBar.Visible = False
-            StatusCamTxt.Text = oldTxt
-            ListVidDate.Enabled = True
-            BtnVidDL.Enabled = True
-            ListVid.Enabled = True
-            btnVidCancel.Visible = False
-            isDownloading = False
+            Try
+                'reinit display
+                DLProgress.Visible = False
+                DllToolBar.Visible = False
+                ListVidDate.Enabled = True
+                BtnVidDL.Enabled = True
+                ListVid.Enabled = True
+                btnVidCancel.Visible = False
+                isDownloading = False
+                If cancelDL = True Then
+                    'refresh download list
+                    If Not ListVidDate.SelectedItem = Nothing Then loadVidList(ListVidDate.SelectedItem.ToString())
+                    'canceled by user message
+                    MsgBox(Lang.msgDownloadCanceled)
+                Else
+                    'error message
+                    MessageBox.Show(Lang.ErrDownloading & " : " & ex.Message)
+                End If
+            Catch ex2 As Exception
+                'nothing to do, form is closing and cancelling download (theorically)
+            End Try
+
         End Try
 
-        'restore controls
-        reControl()
+        Try
+            'restore controls
+            reControl()
+            'restore old info bar status
+            StatusCamTxt.Text = oldTxt
+        Catch ex As Exception
+            'nothing to do, form is closing and cancelling download (theorically)
+        End Try
+
+    End Sub
+
+    'send stuff if download is canceled
+    Private Sub cancelDownload(ByVal Client As WebClient, ByVal trd As Thread)
+        'cancel download
+        Client.CancelAsync()
+        Client.Dispose()
+        Client = Nothing
+        trd.Abort()
     End Sub
 
     Private oldTxt As String = ""
@@ -1229,20 +1320,20 @@ Public Class DadCam
     Private Sub client_DownloadCompleted(ByVal sender As Object, ByVal e As System.ComponentModel.AsyncCompletedEventArgs)
 
         'cancel case
-        If e.Cancelled Then
-            currDl = maxDl
-            isDownloading = False
-            DLProgress.Visible = False
-            DllToolBar.Visible = False
-            StatusCamTxt.Text = oldTxt
-            ListVidDate.Enabled = True
-            ListVid.Enabled = True
-            BtnVidDL.Enabled = True
-            btnVidCancel.Visible = False
-            ' delete uncomplete file if exist
-            If System.IO.File.Exists(dlPath & currDownloadName) = True Then System.IO.File.Delete(dlPath & currDownloadName)
-            Exit Sub
-        End If
+        'If e.Cancelled Then
+        'currDl = maxDl
+        'isDownloading = False
+        'DLProgress.Visible = False
+        'DllToolBar.Visible = False
+        ''StatusCamTxt.Text = oldTxt
+        'ListVidDate.Enabled = True
+        'ListVid.Enabled = True
+        'BtnVidDL.Enabled = True
+        'btnVidCancel.Visible = False
+        '' delete uncomplete file if exist
+        'If System.IO.File.Exists(dlPath & currDownloadName) = True Then System.IO.File.Delete(dlPath & currDownloadName)
+        'Exit Sub
+        'End If
 
         'nb downloaded is increased
         currDl = currDl + 1
@@ -1251,8 +1342,8 @@ Public Class DadCam
         'end of progress bars !
         If currDl = maxDl Then
             DLProgress.Visible = False
-            DllToolBar.Visible = False
-            StatusCamTxt.Text = oldTxt
+            If DllToolBar.Visible Then DllToolBar.Visible = False
+            'StatusCamTxt.Text = oldTxt
             ListVidDate.Enabled = True
             ListVid.Enabled = True
             BtnVidDL.Enabled = True
@@ -1266,10 +1357,13 @@ Public Class DadCam
     End Sub
 
     'show selected file in player
-    Private Sub ListVid_DoubleClick(sender As System.Object, e As System.EventArgs) Handles ListVid.DoubleClick
+    Private Sub ListVid_DoubleClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ListVid.DoubleClick
 
         'Dim wmp As New WMPLib.WindowsMediaPlayer
         'VideoPlayer.WindowsMediaPlayer
+
+        'fix dbl click on input check
+        If ListVid.SelectedItems.Count = 0 Then Exit Sub
 
         If ListVid.SelectedItems.Item(0).BackColor = Color.LightGreen Then
             'read local
@@ -1316,6 +1410,7 @@ Public Class DadCam
         If e.Button = MouseButtons.Left Then
             MovePanel = False
             Me.Cursor = Cursors.Default
+            PanelVid.Refresh()
         End If
     End Sub
 
@@ -1324,19 +1419,19 @@ Public Class DadCam
 
 #Region "Frogg MENU"
 
-    Private Sub CurriculumVitaeToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles MenuCV.Click
+    Private Sub CurriculumVitaeToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuCV.Click
         Process.Start(froggcv)
     End Sub
 
-    Private Sub YoutubeToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles YoutubeToolStripMenuItem.Click
+    Private Sub YoutubeToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles YoutubeToolStripMenuItem.Click
         Process.Start(froggyoutube)
     End Sub
 
-    Private Sub WikiToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles WikiToolStripMenuItem.Click
+    Private Sub WikiToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles WikiToolStripMenuItem.Click
         Process.Start(froggwiki)
     End Sub
 
-    Private Sub BanièreToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles MenuBaniere.Click
+    Private Sub BanièreToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuBaniere.Click
         Frogg.Show()
     End Sub
 
