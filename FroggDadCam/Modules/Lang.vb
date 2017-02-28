@@ -32,6 +32,7 @@ Module Lang
     Public ErrConn
     Public ErrDownload
     Public ErrDownloading
+    Public ErrDeleteFile
     '*Cam
     Public cam
     Public camLive
@@ -111,6 +112,7 @@ Module Lang
             ErrConn = xDoc.GetElementsByTagName("ErrConn")(0).InnerText
             ErrDownloading = xDoc.GetElementsByTagName("ErrDownloading")(0).InnerText
             ErrDownload = xDoc.GetElementsByTagName("ErrDownload")(0).InnerText
+            ErrDeleteFile = xDoc.GetElementsByTagName("ErrDeleteFile")(0).InnerText
             '*Cam
             cam = xDoc.GetElementsByTagName("cam")(0).InnerText
             camLive = xDoc.GetElementsByTagName("camLive")(0).InnerText

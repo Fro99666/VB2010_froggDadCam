@@ -36,6 +36,7 @@
         <ErrConn>Connexion error</ErrConn>
         <ErrDownloading>An error occurred while downloading</ErrDownloading>
         <ErrDownload>Download error !</ErrDownload>
+        <ErrDeleteFile>The update cannot continue for insufficient rights. To continue delete the following file, and then click ok</ErrDeleteFile>
         <cam>Camera</cam>
         <camLive>Live camera from</camLive>
         <camMem>Memory card</camMem>

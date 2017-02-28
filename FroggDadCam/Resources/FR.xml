@@ -36,6 +36,7 @@
         <ErrConn>Erreur de connexion</ErrConn>
         <ErrDownloading>Une erreur est survenue lors du téléchargement</ErrDownloading>
         <ErrDownload>Téléchargement Echoué !</ErrDownload>
+        <ErrDeleteFile>La mise à jour ne peut pas continuer car l'application n'a pas les droits pour supprimer. Pour continuer veuillez Supprimez le fichier suivant, puis cliquez sur ok</ErrDeleteFile>
         <cam>Caméra</cam>
         <camLive>En direct de la caméra sur</camLive>
         <camMem>Carte mémoire</camMem>

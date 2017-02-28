@@ -228,7 +228,6 @@ Public Class DadCam
         'get version text file
         versionLogMsg = getHttpsFileContent(froggVersion & "/" & registryKey & "/" & language & froggVersionLog)
 
-
         '===> this doesn't support https ?
         'get version text file
         'Dim liveVersion = getHtmlBasicAuth(froggVersion & "/" & registryKey & "/" & froggVersionFile, False)
@@ -236,7 +235,7 @@ Public Class DadCam
         'versionLogMsg = getHtmlBasicAuth(froggVersion & "/" & registryKey & "/" & language & froggVersionLog, False)
 
         'if outdated
-        If liveVersion > version Then
+        If CDbl(Val(liveVersion)) > CDbl(Val(version)) Then
             If MsgBox(Lang.AppNewVersion & vbCrLf & registryKey & " " & Lang.AppVersion & " " & liveVersion, MsgBoxStyle.YesNo, registryKey) = MsgBoxResult.Yes Then
                 Try
                     'hidding other panels
@@ -284,14 +283,27 @@ Public Class DadCam
 
     'check if start from update file or original exe
     Private Sub checkPath()
+        Dim downloadTarget = My.Computer.FileSystem.SpecialDirectories.Temp & "/" & registryKey & ".exe"
         'check if is updated
         If getUpdateFlag() = 1 Then
+            Dim DeletedExe = False
             'do update
             'copy file to application original path & then restart it
-            If System.IO.File.Exists(exePath) = True Then
-                System.IO.File.Delete(exePath)
+            While DeletedExe = False
+                Try
+                    If System.IO.File.Exists(exePath) = True Then
+                        System.IO.File.Delete(exePath)
+                    End If
+                    DeletedExe = True
+                Catch ex As Exception
+                    MessageBox.Show(ErrDeleteFile & exePath)
+                End Try
+            End While
+            If System.IO.File.Exists(downloadTarget) = True Then
+                System.IO.File.Copy(downloadTarget, exePath)
+            Else
+                System.IO.File.Copy(Application.ExecutablePath, exePath)
             End If
-            System.IO.File.Copy(Application.ExecutablePath, exePath)
             'update successfull message + change log
             showVersionLog(True)
             'remove update flag
@@ -302,6 +314,10 @@ Public Class DadCam
             Application.Exit()
             End
         Else
+            'delete temporrary file
+            If System.IO.File.Exists(downloadTarget) = True Then
+                System.IO.File.Delete(downloadTarget)
+            End If
             'set current path (if exe has moved)
             setInstallPath()
         End If
