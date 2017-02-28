@@ -6,9 +6,6 @@ Imports System.Threading
 Imports Microsoft.Win32
 
 
-'TODO
-'=====
-' todo : fix cancel thread execption in log message
 'POSSIBLE TODO BONUS
 '==========
 '# BONUS : Add update to menu if cancel update 
@@ -43,7 +40,7 @@ Public Class DadCam
     Public versionLogMsg As String
 
     ' ### SCRIPT INFO ###
-    Public Const version As String = "1.003"
+    Public Const version As String = "1.004"
     Public Const encryptLog As String = "Fr099d4DP4sSC0d3"
     Public Const encryptPass As String = "Fr099d4DL09C0d3"
     Public Const registryKey As String = "FroggDadCam"
@@ -146,13 +143,13 @@ Public Class DadCam
                 'cancel downloads
                 cancelDL = True
                 'exit application
-                Me.Close()
-                Application.Exit()
+                'Me.Close()
+                'Application.Exit()
             End If
         Else
             'exit application
-            Me.Close()
-            Application.Exit()
+            'Me.Close()
+            'Application.Exit()
         End If
     End Sub
 

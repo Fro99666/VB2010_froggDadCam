@@ -50,3 +50,16 @@ D:\work\GitHub\VB2010_froggDadCam\FroggDadCam\obj\x86\Debug\FroggDadCam.exe
 D:\work\GitHub\VB2010_froggDadCam\FroggDadCam\obj\x86\Debug\FroggDadCam.xml
 D:\work\GitHub\VB2010_froggDadCam\FroggDadCam\obj\x86\Debug\FroggDadCam.pdb
 D:\work\GitHub\VB2010_froggDadCam\FroggDadCam\obj\x86\Debug\DadCam.VersionLog.resources
+E:\work\GitHub\VB2010_froggDadCam\FroggDadCam\bin\Debug\FroggDadCam.exe
+E:\work\GitHub\VB2010_froggDadCam\FroggDadCam\bin\Debug\FroggDadCam.pdb
+E:\work\GitHub\VB2010_froggDadCam\FroggDadCam\bin\Debug\FroggDadCam.xml
+E:\work\GitHub\VB2010_froggDadCam\FroggDadCam\obj\x86\Debug\DadCam.Configuration.resources
+E:\work\GitHub\VB2010_froggDadCam\FroggDadCam\obj\x86\Debug\DadCam.DadCam.resources
+E:\work\GitHub\VB2010_froggDadCam\FroggDadCam\obj\x86\Debug\DadCam.VersionLog.resources
+E:\work\GitHub\VB2010_froggDadCam\FroggDadCam\obj\x86\Debug\DadCam.MultiCam.resources
+E:\work\GitHub\VB2010_froggDadCam\FroggDadCam\obj\x86\Debug\DadCam.Frogg.resources
+E:\work\GitHub\VB2010_froggDadCam\FroggDadCam\obj\x86\Debug\DadCam.Resources.resources
+E:\work\GitHub\VB2010_froggDadCam\FroggDadCam\obj\x86\Debug\FroggDadCam.vbproj.GenerateResource.Cache
+E:\work\GitHub\VB2010_froggDadCam\FroggDadCam\obj\x86\Debug\FroggDadCam.exe
+E:\work\GitHub\VB2010_froggDadCam\FroggDadCam\obj\x86\Debug\FroggDadCam.xml
+E:\work\GitHub\VB2010_froggDadCam\FroggDadCam\obj\x86\Debug\FroggDadCam.pdb
