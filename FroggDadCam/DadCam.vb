@@ -40,7 +40,7 @@ Public Class DadCam
     Public versionLogMsg As String
 
     ' ### SCRIPT INFO ###
-    Public Const version As String = "1.004"
+    Public Const version As String = "1.005"
     Public Const encryptLog As String = "Fr099d4DP4sSC0d3"
     Public Const encryptPass As String = "Fr099d4DL09C0d3"
     Public Const registryKey As String = "FroggDadCam"
@@ -220,9 +220,13 @@ Public Class DadCam
 
 #Region "UPDATE"
 
+    'downloaded exe full path
+    Dim downloadTarget
+    'current exe full path
+    Dim currentExe
+
     'check if version is uptodate, else download new version
     Private Sub checkVersion()
-
         'get version text file
         Dim liveVersion = getHttpsFileContent(froggVersion & "/" & registryKey & "/" & froggVersionFile)
         'get version text file
@@ -248,7 +252,6 @@ Public Class DadCam
                     Configuration.ProgressBarNewVersion.Visible = True
                     'init vars
                     isDownloading = True
-                    Dim downloadTarget = My.Computer.FileSystem.SpecialDirectories.Temp & "/" & registryKey & ".exe"
                     Dim Client As WebClient = New WebClient
                     'set events
                     AddHandler Client.DownloadProgressChanged, AddressOf update_ProgressChanged
@@ -264,11 +267,11 @@ Public Class DadCam
                     End While
                     'set updated flag
                     setUpdateFlag()
-                    're-run the exe
-                    Process.Start(downloadTarget)
-                    Me.Close()
-                    Application.Exit()
-                    End
+
+                    'update successfull message + change log
+                    showVersionLog(True)
+
+
                 Catch ex As Exception
                     MessageBox.Show("Error : " & ex.Message)
                     Console.Write(ex)
@@ -281,33 +284,56 @@ Public Class DadCam
         End If
     End Sub
 
+    're-run the exe
+    Public Sub startTempUpdated()
+        Process.Start(downloadTarget)
+        Me.Close()
+        Application.Exit()
+    End Sub
+
     'check if start from update file or original exe
     Private Sub checkPath()
-        Dim downloadTarget = My.Computer.FileSystem.SpecialDirectories.Temp & "/" & registryKey & ".exe"
+
+        ' downloaded updated exe file
+        downloadTarget = My.Computer.FileSystem.SpecialDirectories.Temp & "/" & registryKey & ".exe"
+        'current exe path
+        currentExe = Replace(Application.ExecutablePath, ".EXE", ".exe")
+
+        'if launch real exe remove update flag, to prevent unsuccessfull update with flag not changed
+        If currentExe = exePath Then
+            'remove update flag
+            removeUpdateFlag()
+        End If
+
         'check if is updated
         If getUpdateFlag() = 1 Then
             Dim DeletedExe = False
+
+            Thread.Sleep(1000) : Application.DoEvents()
+
             'do update
             'copy file to application original path & then restart it
-            While DeletedExe = False
-                Try
-                    If System.IO.File.Exists(exePath) = True Then
-                        System.IO.File.Delete(exePath)
-                    End If
-                    DeletedExe = True
-                Catch ex As Exception
-                    MessageBox.Show(ErrDeleteFile & exePath)
-                End Try
-            End While
+            'While DeletedExe = False
+            Try
+                If System.IO.File.Exists(exePath) = True Then
+                    System.IO.File.Delete(exePath)
+                End If
+                DeletedExe = True
+            Catch ex As Exception
+                'MessageBox.Show(ErrDeleteFile & exePath)
+            End Try
+            'End While
             If System.IO.File.Exists(downloadTarget) = True Then
                 System.IO.File.Copy(downloadTarget, exePath)
             Else
-                System.IO.File.Copy(Application.ExecutablePath, exePath)
+                System.IO.File.Copy(currentExe, exePath)
             End If
-            'update successfull message + change log
-            showVersionLog(True)
+
             'remove update flag
             removeUpdateFlag()
+
+            Thread.Sleep(1000) : Application.DoEvents()
+
             'restart process
             Process.Start(exePath)
             Me.Close()
@@ -324,7 +350,9 @@ Public Class DadCam
     End Sub
 
     Private Sub setInstallPath()
-        My.Computer.Registry.SetValue("HKEY_CURRENT_USER\Software\" & registryKey, "installpath", Replace(Application.ExecutablePath, ".EXE", ".exe"))
+        If Not currentExe = downloadTarget Then
+            My.Computer.Registry.SetValue("HKEY_CURRENT_USER\Software\" & registryKey, "installpath", currentExe)
+        End If
     End Sub
 
     Private Sub setUpdateFlag()
@@ -335,7 +363,7 @@ Public Class DadCam
         My.Computer.Registry.SetValue("HKEY_CURRENT_USER\Software\" & registryKey, "updated", "0")
     End Sub
 
-    Private Function getUpdateFlag()
+    Public Function getUpdateFlag()
         Return My.Computer.Registry.GetValue("HKEY_CURRENT_USER\Software\" & registryKey, "updated", "0")
     End Function
 
