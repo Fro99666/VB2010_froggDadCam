@@ -12,7 +12,7 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyDescription("Display dad cam")> 
 <Assembly: AssemblyCompany("Frogg.fr")> 
 <Assembly: AssemblyProduct("DadCam")> 
-<Assembly: AssemblyCopyright("Frogg.fr Copyright ©  2015")> 
+<Assembly: AssemblyCopyright("Frogg.fr Copyright ©  2017")> 
 <Assembly: AssemblyTrademark("Frogg.fr")> 
 
 <Assembly: ComVisible(False)>
@@ -31,5 +31,5 @@ Imports System.Runtime.InteropServices
 ' en utilisant '*', comme indiqué ci-dessous :
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("1.0.0.0")> 
-<Assembly: AssemblyFileVersion("1.0.0.0")> 
+<Assembly: AssemblyVersion("1.0.0.7")> 
+<Assembly: AssemblyFileVersion("1.0.0.7")> 

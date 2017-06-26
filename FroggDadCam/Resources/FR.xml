@@ -42,7 +42,7 @@
         <camMem>Carte mémoire</camMem>
         <PanelMaskRestart>Redémarrage en cours ...</PanelMaskRestart>
         <msgRestart>Etes-vous sûre de vouloir redémarrer caméra ? Attention, le redémarrage dure 1 minute</msgRestart>
-        <msgRestartTitle>Gestion de la carte mémoire</msgRestartTitle>
+        <msgRestartTitle>Gestion de la caméra</msgRestartTitle>
         <msgRestarting>Redémarrage de la caméra en cours, merci de patienter</msgRestarting>
         <msgRestarted>La caméra a redémarré !</msgRestarted>
         <msgUpdated>a été mis à jour avec succès !</msgUpdated>

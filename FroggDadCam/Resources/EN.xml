@@ -42,7 +42,7 @@
         <camMem>Memory card</camMem>
         <PanelMaskRestart>Restart in progress ...</PanelMaskRestart>      
         <msgRestart>Do you wish to restart camera ? it will take around 1 minute</msgRestart>
-        <msgRestartTitle>Memory card management</msgRestartTitle>
+        <msgRestartTitle>Camera management</msgRestartTitle>
         <msgRestarting>Camera is restarting, please wait</msgRestarting>
         <msgRestarted>Camera has restarted !</msgRestarted>
         <msgUpdated>has been successfully updated !</msgUpdated>

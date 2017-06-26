@@ -40,7 +40,7 @@ Public Class DadCam
     Public versionLogMsg As String
 
     ' ### SCRIPT INFO ###
-    Public Const version As String = "1.005"
+    Public Const version As String = "1.007"
     Public Const encryptLog As String = "Fr099d4DP4sSC0d3"
     Public Const encryptPass As String = "Fr099d4DL09C0d3"
     Public Const registryKey As String = "FroggDadCam"
@@ -269,8 +269,7 @@ Public Class DadCam
                     setUpdateFlag()
 
                     'update successfull message + change log
-                    showVersionLog(True)
-
+                    showVersionLog(liveVersion)
 
                 Catch ex As Exception
                     MessageBox.Show("Error : " & ex.Message)
@@ -323,11 +322,16 @@ Public Class DadCam
                 'MessageBox.Show(ErrDeleteFile & exePath)
             End Try
             'End While
-            If System.IO.File.Exists(downloadTarget) = True Then
-                System.IO.File.Copy(downloadTarget, exePath)
-            Else
-                System.IO.File.Copy(currentExe, exePath)
-            End If
+
+            Try
+                If System.IO.File.Exists(downloadTarget) = True Then
+                    System.IO.File.Copy(downloadTarget, exePath)
+                Else
+                    System.IO.File.Copy(currentExe, exePath)
+                End If
+            Catch ex As Exception
+                MessageBox.Show(ErrDeleteFile & vbCrLf & exePath)
+            End Try
 
             'remove update flag
             removeUpdateFlag()
@@ -985,14 +989,14 @@ Public Class DadCam
 
     'version change log
     Private Sub MenuInfoVersion_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuInfoVersion.Click
-        showVersionLog(False)
+        showVersionLog()
     End Sub
 
     'show version change log
-    Private Sub showVersionLog(ByVal updated As Boolean)
+    Private Sub showVersionLog(Optional ByVal newVersion As String = "")
         VersionLog.VersionLogText.Text = versionLogMsg
-        If updated Then
-            VersionLog.Text = registryKey & " " & Lang.msgUpdated & " " & version
+        If Not newVersion = "" Then
+            VersionLog.Text = registryKey & " " & Lang.msgUpdated & " " & newVersion
         Else
             VersionLog.Text = registryKey & " " & version
         End If
