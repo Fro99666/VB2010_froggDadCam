@@ -40,7 +40,7 @@ Public Class DadCam
     Public versionLogMsg As String
 
     ' ### SCRIPT INFO ###
-    Public Const version As String = "1.007"
+    Public Const version As String = "1.008"
     Public Const encryptLog As String = "Fr099d4DP4sSC0d3"
     Public Const encryptPass As String = "Fr099d4DL09C0d3"
     Public Const registryKey As String = "FroggDadCam"
@@ -56,7 +56,7 @@ Public Class DadCam
     Public camModel = New ArrayList()
 
     ' ###  FROGG INFOS ###
-    Private Const froggVersion As String = "https://version.soft.frogg.fr"
+    Private Const froggVersion As String = "https://version.frogg.fr"
     Private Const froggVersionFile As String = "v"
     Private Const froggVersionLog As String = "_changelog.txt"
     Private Const froggcv As String = "http://cv.frogg.fr"
