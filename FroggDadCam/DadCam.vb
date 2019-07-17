@@ -14,6 +14,7 @@ Imports Microsoft.Win32
 '# BONUS : put all view in same tab + switch to cam directly from menu
 
 
+
 Public Class DadCam
 
 #Region "VARS"
@@ -220,6 +221,11 @@ Public Class DadCam
 
 #Region "UPDATE"
 
+    ' used to force https validation
+    Private Function AcceptAllCertifications(ByVal sender As Object, ByVal certification As System.Security.Cryptography.X509Certificates.X509Certificate, ByVal chain As System.Security.Cryptography.X509Certificates.X509Chain, ByVal sslPolicyErrors As System.Net.Security.SslPolicyErrors) As Boolean
+        Return True
+    End Function
+
     'downloaded exe full path
     Dim downloadTarget
     'current exe full path
@@ -227,6 +233,10 @@ Public Class DadCam
 
     'check if version is uptodate, else download new version
     Private Sub checkVersion()
+
+        ' used to force https validation
+        ServicePointManager.ServerCertificateValidationCallback = New System.Net.Security.RemoteCertificateValidationCallback(AddressOf AcceptAllCertifications)
+
         'get version text file
         Dim liveVersion = getHttpsFileContent(froggVersion & "/" & registryKey & "/" & froggVersionFile)
         'get version text file
